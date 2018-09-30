@@ -1,0 +1,12 @@
+{% extends 'navbar.html' %}
+
+{% block title %}
+    Estudiante {{ student.get_full_name }}
+{% endblock %}
+
+{% block main %}
+    {{ student.get_full_name }}
+    {% for book in books %}
+        {{ book.name }}
+    {% endfor %}
+{% endblock %}

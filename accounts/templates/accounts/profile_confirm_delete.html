@@ -1,0 +1,14 @@
+{% extends 'navbar.html' %}
+
+{% block title %}
+    Eliminar usuario {{ profile }}
+{% endblock %}
+
+{% block main %}
+    Estas seguro de eliminar al usuario {{ profile.username }}, cuyo nombre completo es {{ profile.get_full_name }}?
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Aceptar</button>
+    </form>
+{% endblock %}

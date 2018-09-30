@@ -1,0 +1,26 @@
+{% extends 'navbar.html' %}
+
+{% block title %}
+    Listado de libros
+{% endblock %}
+
+{% block main %}
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Numero</th>
+            <th>Cantidad</th>
+        </tr>
+        {% for book in book_list %}
+            <tr>
+                <td>{{ book.name }}</td>
+                <td>{{ book.number }}</td>
+                <td>{{ book.cant }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td rowspan="3">No hay libros</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

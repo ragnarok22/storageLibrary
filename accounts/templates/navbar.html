@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark primary-color">
+            <div class="container-fluid">
+                <a href="{% url 'dashboard' %}" class="navbar-brand">
+                    <strong>StorageLibrary</strong>
+                </a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item" id="init">
+                            <a href="{% url 'dashboard' %}" class="nav-link">Inicio <span class="sr-only"></span></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="students" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">Estudiantes</a>
+                            <div class="dropdown-menu dropdown-primary" aria-labelledby="students">
+                                <a href="{% url 'lending:student-query' %}" class="dropdown-item">Listado de
+                                    estudiantes</a>
+                                <a href="#" class="dropdown-item">A&ntilde;adir un estudiante</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="books" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">Libros</a>
+                            <div class="dropdown-menu dropdown-primary" aria-labelledby="books">
+                                <a href="{% url 'lending:book-list' %}" class="dropdown-item">Listado de libros</a>
+                                <a href="#" class="dropdown-item">A&ntilde;adir un libro</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="form-inline">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <a href="#" id="test" class="nav-link waves-effect waves-light dropdown-toggle"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-user"></i>
+                                        <span class="clearfix d-none d-sm-inline-block">{{ user }}</span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="test">
+                                        <a class="dropdown-item" href="{% url 'accounts:detail' user.pk %}">
+                                            <i class="fa fa-eye mr-3"></i>Ver Perfil</a>
+                                        <a class="dropdown-item" href="{% url 'accounts:update' user.pk %}">
+                                            <i class="fa fa-edit mr-3"></i>Editar
+                                            Perfil</a>
+                                        <a class="dropdown-item" href="{% url 'accounts:logout' %}">
+                                            <i class="fa fa-sign-out mr-3"></i>Salir</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container-fluid">
+        <div class="row">
+            {% block main %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer class="page-footer font-small blue pt-4">
+        <a href="#" class="go-top">Subir</a>
+        <div class="container-fluid text-center text-md-left">
+            <div class="row">
+                <div class="col-md-6 mt-md-0 mt-3">
+                    <h5 class="text-uppercase">Universidad de Holgu&iacute;n</h5>
+                    <p>Ser culto es el &uacute;nico modo de ser libre.</p>
+                    <p class="offset-3">Jos&eacute; Mart&iacute;</p>
+                </div>
+                <hr class="clearfix w-100 d-md-none pb-3">
+                <div class="col-md-3 mb-md-0 mb-3">
+                    <h5 class="text-uppercase">Links</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#">Link 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Link 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Link 3</a>
+                        </li>
+                        <li>
+                            <a href="#">Link 4</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright text-center py-3">&copy; 2018 Copyright:
+            <a href="#">UHo</a>
+        </div>
+    </footer>
+{% endblock %}

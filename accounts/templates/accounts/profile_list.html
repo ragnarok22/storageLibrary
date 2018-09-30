@@ -1,0 +1,12 @@
+{% extends 'navbar.html' %}
+
+{% block title %}
+    Listado de usuarios
+{% endblock %}
+
+{% block main %}
+    {% for profile in profiles %}
+        <a href="{% url 'accounts:detail' profile.pk %}">Nombre de usuario: {{ profile.username }}</a>
+    {% endfor %}
+
+{% endblock %}
