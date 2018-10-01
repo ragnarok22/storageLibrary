@@ -1,0 +1,94 @@
+{% extends 'navbar.html' %}
+
+{% block title %}
+    Estudiantes
+{% endblock %}
+
+{% block main %}
+    <!-- Formulario de busqueda-->
+    <div class="row">
+        <form method="get" class="form-inline">
+            <!-- Campo de busqueda-->
+            <div class="md-form">
+                <input type="text" name="q" id="query" class="form-control">
+                <label for="query"></label>
+            </div>
+            <!-- Campo de busqueda-->
+            <!-- Campo de tipo de busqueda-->
+            <div class="md-form">
+                <select name="type" id="type" class="form-control">
+                    <option value="name">Nombre</option>
+                    <option value="last_name">Apellidos</option>
+                    <option value="number">N&uacute;mero</option>
+                </select>
+                <label for="type"></label>
+            </div>
+            <!-- Campo de tipo de busqueda-->
+            <!-- Boton de buscar-->
+            <div class="md-form">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+            </div>
+            <!-- Boton de buscar-->
+        </form>
+    </div>
+    <!-- Formulario de busqueda-->
+    <div class="row">
+        <div class="col-6">
+            <table>
+                <tr>
+                    <th>N&uacute;mero</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                </tr>
+                {% for student in student_list %}
+                    <tr>
+                        <td><a href="{% url 'lending:student-detail' student.pk %}">{{ student.number }}</a></td>
+                        <td>{{ student.first_name }}</td>
+                        <td>{{ student.last_name }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">No se encuentra ning&uacute;n estudiante con ese criterio de b&uacute;squeda</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <h5 class="card-header info-color white-text text-center py-4">
+                    <strong>Información del estudiante</strong>
+                </h5>
+                <!-- Card content -->
+                <div class="card-body px-lg-5 pt-0">
+                    <p>Número: 1</p>
+                    <p>Carnet de identidad: 94252548484</p>
+                    <p>A&ntilde;o academico: 1</p>
+                    <p>Nombre de usuario: Admin</p>
+                    <p>Nombre: Administrador</p>
+                    <p>Apellidos: del Sitio</p>
+                    <p>libros prestados: </p>
+                </div>
+                <!-- Card content -->
+                <!-- Card footer -->
+                <div class="card-footer">
+                    <a href="#" class="btn btn-red">Eliminar</a>
+                    <a href="#" class="btn btn-primary">Editar</a>
+                </div>
+                <!-- Card footer -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            {% if query %}
+                $('#query').val('{{ query }}');
+            {% endif %}
+            {% if type %}
+                $('#type').val('{{ type }}');
+            {% endif %}
+        });
+    </script>
+{% endblock %}

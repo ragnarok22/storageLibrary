@@ -44,9 +44,8 @@ class StudentDetailView(generic.DetailView):
         return context
 
 
-class StudentQueryView(generic.ListView):
+class StudentListView(generic.ListView):
     model = Student
-    template_name = 'lending/student_query.html'
 
     def get_queryset(self):
         type_query = self.request.GET.get('type')

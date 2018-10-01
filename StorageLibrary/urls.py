@@ -22,5 +22,5 @@ urlpatterns = [
     path('', views.DashboardView.as_view(), name='dashboard'),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    path('book/', include('lending.urls')),
+    path('lending/', include('lending.urls')),
 ]
