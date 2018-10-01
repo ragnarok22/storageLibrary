@@ -20,6 +20,11 @@ class Student(models.Model):
     ci = models.CharField(max_length=11)
     number = models.PositiveIntegerField(default=0)
     academic_year = models.PositiveIntegerField(default=1)
+    books = models.ManyToManyField(
+        Book,
+        through='Lending',
+        through_fields=('student', 'book')
+    )
 
     def get_full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
