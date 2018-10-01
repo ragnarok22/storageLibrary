@@ -6,6 +6,13 @@ class Book(models.Model):
     number = models.PositiveIntegerField(default=0)
     cant = models.PositiveIntegerField(default=0)
 
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'number': self.number,
+            'cant': self.cant
+        }
+
     def __str__(self):
         return '{}, cant: {}'.format(self.name, self.cant)
 
@@ -31,6 +38,16 @@ class Student(models.Model):
 
     def __str__(self):
         return self.get_full_name()
+
+    def to_dict(self):
+        return {
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'ci': self.ci,
+            'number': self.number,
+            'academic_year': self.academic_year,
+            # 'books': self.books,
+        }
 
 
 class Lending(models.Model):
