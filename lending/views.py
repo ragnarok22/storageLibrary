@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from django.views import generic
 
+from lending import mixins
 from lending.models import Book, Student
 
 
@@ -44,7 +45,7 @@ class StudentDetailView(generic.DetailView):
         return context
 
 
-class StudentListView(generic.ListView):
+class StudentListView(mixins.AjaxableListMixin):
     model = Student
 
     def get_queryset(self):
