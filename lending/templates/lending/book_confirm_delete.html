@@ -1,0 +1,13 @@
+{% extends 'navbar.html' %}
+
+{% block title %}
+    Eliminar libro {{ book.name }}
+{% endblock %}
+
+{% block main %}
+    <h2>Estas seguro de eliminar el libro {{ book.name }}?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn btn-danger">Aceptar</button>
+    </form>
+{% endblock %}
