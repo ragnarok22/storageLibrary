@@ -32,13 +32,17 @@
                 <!-- Boton de buscar-->
             </form>
             <!-- Formulario de busqueda-->
+            <!-- Tabla de contenido-->
             <div class="row">
-                <table>
+                <table id="studentTable" class="table table-striped" cellspacing="0" width="100%">
+                <thead>
                     <tr>
-                        <th>N&uacute;mero</th>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
+                        <th class="th-sm">N&uacute;mero</th>
+                        <th class="th-sm">Nombre</th>
+                        <th class="th-sm">Apellidos</th>
                     </tr>
+                </thead>
+                <tbody>
                     {% for student in student_list %}
                         <tr>
                             <td><a href="{% url 'lending:student-detail' student.pk %}">{{ student.number }}</a>
@@ -52,8 +56,10 @@
                             </td>
                         </tr>
                     {% endfor %}
+                </tbody>
                 </table>
             </div>
+            <!-- Tabla de contenido-->
         </div>
         <!-- Student Info-->
         <div class="col-6">
