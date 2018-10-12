@@ -35,20 +35,25 @@
             <!-- Tabla de contenido-->
             <div class="row">
                 <table id="studentTable" class="table table-striped" cellspacing="0" width="100%">
-                <thead>
+                    <thead>
                     <tr>
                         <th class="th-sm">N&uacute;mero</th>
                         <th class="th-sm">Nombre</th>
                         <th class="th-sm">Apellidos</th>
+                        <th class="th-sm">Acciones</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     {% for student in student_list %}
-                        <tr>
-                            <td><a href="{% url 'lending:student-detail' student.pk %}">{{ student.number }}</a>
-                            </td>
+                        <tr data-pk="{{ student.pk }}" data-type="detail">
+                            <td>{{ student.number }}</td>
                             <td>{{ student.first_name }}</td>
                             <td>{{ student.last_name }}</td>
+                            <td>
+                                <a href="{% url 'lending:student-detail' student.pk %}"><i class="fa fa-eye"></i></a>
+                                <a href="#"><i class="fa fa-edit"></i></a>
+                                <a href="#"><i class="fa fa-remove"></i></a>
+                            </td>
                         </tr>
                     {% empty %}
                         <tr>
@@ -56,26 +61,25 @@
                             </td>
                         </tr>
                     {% endfor %}
-                </tbody>
+                    </tbody>
                 </table>
             </div>
             <!-- Tabla de contenido-->
         </div>
         <!-- Student Info-->
         <div class="col-6">
-            <div class="card">
+            <div class="card" style="display: none;" id="student-info">
                 <h5 class="card-header info-color white-text text-center py-4">
                     <strong>Información del estudiante</strong>
                 </h5>
                 <!-- Card content -->
                 <div class="card-body px-lg-5 pt-0">
-                    <p>Número: 1</p>
-                    <p>Carnet de identidad: 94252548484</p>
-                    <p>A&ntilde;o academico: 1</p>
-                    <p>Nombre de usuario: Admin</p>
-                    <p>Nombre: Administrador</p>
-                    <p>Apellidos: del Sitio</p>
-                    <p>libros prestados: </p>
+                    <p id="first-name"></p>
+                    <p id="last-name"></p>
+                    <p id="number"></p>
+                    <p id="ci"></p>
+                    <p id="academic-year"></p>
+                    <p id="books">libros prestados: </p>
                 </div>
                 <!-- Card content -->
                 <!-- Card footer -->
@@ -102,7 +106,7 @@
                 $('#type').val('{{ type }}');
             {% endif %}
 
-            $.ajax('{% url "lending:student-query" %}', {
+            $.ajax('{% url "lending:student-query" %}', {  // testing
                 method: 'GET',
                 success: function (a) {
                     console.log(a['object_list']);
@@ -110,6 +114,22 @@
                 error: function (a) {
 
                 }
+            });
+
+            $('tr td a').click(function (event) {
+                event.preventDefault();
+                {#alert($(this).prop('href'));#}
+                $.ajax($(this).prop('href'), {
+                    method: 'GET',
+                    success: function (a) {
+                        $('#number').html('N&uacute;mero: ' + a['number']);
+                        $('#ci').html('Carnet de identidad: ' + a['ci']);
+                        $('#academic-year').html('A&ntilde;o acad&eacute;mico: ' + a['academic_year']);
+                        $('#first-name').html('Nombre: ' + a['first_name']);
+                        $('#last-name').html('Apellidos: ' + a['last_name']);
+                        $('#student-info').attr('style', 'display: flex');
+                    }
+                });
             });
         });
     </script>

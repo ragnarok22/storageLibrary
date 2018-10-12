@@ -36,7 +36,7 @@ class BookDeleteView(generic.DeleteView):
     success_url = reverse_lazy('lending:book-list')
 
 
-class StudentDetailView(generic.DetailView):
+class StudentDetailView(mixins.AjaxableDetailMixin):
     model = Student
 
     def get_context_data(self, **kwargs):

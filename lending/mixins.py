@@ -15,3 +15,11 @@ class AjaxableListMixin(generic.ListView):
             }
             return JsonResponse(data)
         return response
+
+
+class AjaxableDetailMixin(generic.DetailView):
+    def get(self, request, *args, **kwargs):
+        response = super(AjaxableDetailMixin, self).get(request, *args, **kwargs)
+        if request.is_ajax():
+            return JsonResponse(self.object.to_dict())
+        return response
