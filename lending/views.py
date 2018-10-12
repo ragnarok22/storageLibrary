@@ -23,7 +23,7 @@ class BookUpdateView(generic.UpdateView):
         return reverse_lazy('lending:book-detail', kwargs={'pk': self.object.pk})
 
 
-class BookDetailView(generic.DetailView):
+class BookDetailView(generic.DetailView):  # No usado
     model = Book
 
     def get_context_data(self, **kwargs):
