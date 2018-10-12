@@ -111,23 +111,33 @@
                 success: function (a) {
                     console.log(a['object_list']);
                 },
-                error: function (a) {
-
+                error: function (response, status) {
+                    swal({
+                        type: 'error',
+                        title: status,
+                        text: 'Ha ocurrido un error'
+                    });
                 }
             });
 
             $('tr td a').click(function (event) {
                 event.preventDefault();
-                {#alert($(this).prop('href'));#}
                 $.ajax($(this).prop('href'), {
                     method: 'GET',
-                    success: function (a) {
-                        $('#number').html('N&uacute;mero: ' + a['number']);
-                        $('#ci').html('Carnet de identidad: ' + a['ci']);
-                        $('#academic-year').html('A&ntilde;o acad&eacute;mico: ' + a['academic_year']);
-                        $('#first-name').html('Nombre: ' + a['first_name']);
-                        $('#last-name').html('Apellidos: ' + a['last_name']);
+                    success: function (data) {
+                        $('#number').html('N&uacute;mero: ' + data['number']);
+                        $('#ci').html('Carnet de identidad: ' + data['ci']);
+                        $('#academic-year').html('A&ntilde;o acad&eacute;mico: ' + data['academic_year']);
+                        $('#first-name').html('Nombre: ' + data['first_name']);
+                        $('#last-name').html('Apellidos: ' + data['last_name']);
                         $('#student-info').attr('style', 'display: flex');
+                    },
+                    error: function (response, status) {
+                        swal({
+                            type: 'error',
+                            title: status,
+                            text: 'Ha ocurrido un error'
+                        });
                     }
                 });
             });
