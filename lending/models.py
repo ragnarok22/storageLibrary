@@ -30,7 +30,8 @@ class Student(models.Model):
     books = models.ManyToManyField(
         Book,
         through='Lending',
-        through_fields=('student', 'book')
+        through_fields=('student', 'book'),
+        blank=True
     )
 
     def get_full_name(self):
@@ -41,12 +42,12 @@ class Student(models.Model):
 
     def to_dict(self):
         return {
+            'pk': self.pk,
             'first_name': self.first_name,
             'last_name': self.last_name,
             'ci': self.ci,
             'number': self.number,
             'academic_year': self.academic_year,
-            # 'books': self.books,
         }
 
 
@@ -57,3 +58,11 @@ class Lending(models.Model):
 
     def __str__(self):
         return '{} --> {}'.format(self.student, self.book)
+
+    def to_dict(self):
+        return {
+            'pk': self.pk,
+            'student': self.student.to_dict(),
+            'book': self.book.to_dict(),
+            'date': self.date,
+        }

@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy
 from django.views import generic
 
-from lending import mixins
-from lending.models import Book, Student
+from lending import mixins, forms
+from lending.models import Book, Student, Lending
 
 
 class BookListView(generic.ListView):
@@ -39,6 +39,18 @@ class BookDeleteView(generic.DeleteView):
 class StudentDetailView(mixins.AjaxableDetailMixin):
     model = Student
 
+    def get(self, request, *args, **kwargs):
+        lending = Lending.objects.filter(student_id=self.get_object(self.get_queryset()).pk)
+        lendings = []
+        for l in lending:
+            lendings.append(l.to_dict())
+        data = {'lendings': lendings}
+        if self.extra_context:
+            self.extra_context.update(data)
+        else:
+            self.extra_context = data
+        return super(StudentDetailView, self).get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(StudentDetailView, self).get_context_data(**kwargs)
         context['books'] = Book.objects.filter(lending__student=kwargs['object'])
@@ -66,3 +78,19 @@ class StudentListView(mixins.AjaxableListMixin):
         context['query'] = self.request.GET.get('q', None)
         context['type'] = self.request.GET.get('type', None)
         return context
+
+
+class StudentCreateView(generic.CreateView):
+    model = Student
+    form_class = forms.StudentCreateForm
+    success_url = reverse_lazy('lending:student-query')
+
+
+class StudentDeleteView(generic.DeleteView):
+    model = Student
+    success_url = reverse_lazy('lending:student-query')
+
+
+class StudentUpdateView(generic.UpdateView):
+    model = Student
+    success_url = reverse_lazy('lending:student-detail')
