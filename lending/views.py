@@ -2,10 +2,10 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from lending import mixins, forms
-from lending.models import Book, Student, Lending
+from lending.models import Book, Student
 
 
-class BookListView(generic.ListView):
+class BookListView(mixins.AjaxableListMixin):
     model = Book
 
 

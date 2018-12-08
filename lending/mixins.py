@@ -11,7 +11,7 @@ class AjaxableListMixin(generic.ListView):
             for o in all_objects:
                 objects.append(o.to_dict())
             data = {
-                'object_list': objects
+                self.get_context_object_name(self.object_list): objects
             }
             return JsonResponse(data)
         return response

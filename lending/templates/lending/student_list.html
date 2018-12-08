@@ -83,12 +83,22 @@
 {% block script %}
     <script>
         $(document).ready(function () {
+            const query = $('#query');
+            const query_type = $('#type');
             {% if query %}
-                $('#query').val('{{ query }}');
+                query.val('{{ query }}');
             {% endif %}
             {% if type %}
-                $('#type').val('{{ type }}');
+                query_type.val('{{ type }}');
             {% endif %}
+
+            query_type.change(function () {
+                if ($(this).prop('value') === 'number') {
+                    query.prop('type', 'number');
+                } else {
+                    query.prop('type', 'text');
+                }
+            });
 
             function get_student_detail(href) {
                 $.ajax(href, {
@@ -123,8 +133,13 @@
             function get_student_list() {
                 $.ajax('{% url "lending:student-query" %}', {  // testing
                     method: 'GET',
+                    data: {
+                        'q': query.val(),
+                        'type': query_type.val(),
+                    },
                     success: function (response) {
-                        const student_list = response['object_list'];
+                        const student_list = response['student_list'];
+                        console.log(student_list);
                         let student_html = '';
                         for (let i = 0; i < student_list.length; i++) {
                             const student = student_list[i];
@@ -135,11 +150,9 @@
                                 '<a href="#"><i class="fa fa-remove"></i></a></td></tr>';
                         }
                         $('tbody').html(student_html);
-                        $('tr td a').click(function (event) {
+                        $('tr td a[data-type="detail"]').click(function (event) {
                             event.preventDefault();
                             get_student_detail($(this).prop('href'));
-
-                            $('#delete').attr('href', '');
                         });
                     },
                     error: function (response, status) {
@@ -151,6 +164,11 @@
                     }
                 });
             }
+
+            $('form[method="get"]').submit(function (event) {
+                event.preventDefault();
+                get_student_list();
+            });
 
             get_student_list();
         });
