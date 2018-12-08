@@ -39,18 +39,6 @@ class BookDeleteView(generic.DeleteView):
 class StudentDetailView(mixins.AjaxableDetailMixin):
     model = Student
 
-    def get(self, request, *args, **kwargs):
-        lending = Lending.objects.filter(student_id=self.get_object(self.get_queryset()).pk)
-        lendings = []
-        for l in lending:
-            lendings.append(l.to_dict())
-        data = {'lendings': lendings}
-        if self.extra_context:
-            self.extra_context.update(data)
-        else:
-            self.extra_context = data
-        return super(StudentDetailView, self).get(request, *args, **kwargs)
-
     def get_context_data(self, **kwargs):
         context = super(StudentDetailView, self).get_context_data(**kwargs)
         context['books'] = Book.objects.filter(lending__student=kwargs['object'])

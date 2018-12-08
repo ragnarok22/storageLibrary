@@ -1,4 +1,10 @@
 from django.db import models
+from django.urls import reverse_lazy
+
+
+class CustomModel(models.Model):
+    def to_dict(self):
+        raise NotImplemented
 
 
 class Book(models.Model):
@@ -8,6 +14,7 @@ class Book(models.Model):
 
     def to_dict(self):
         return {
+            'pk': self.pk,
             'name': self.name,
             'number': self.number,
             'cant': self.cant
@@ -37,18 +44,29 @@ class Student(models.Model):
     def get_full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
+    def get_detail_url(self):
+        return reverse_lazy('lending:student-detail', kwargs={'pk': self.pk})
+
     def __str__(self):
         return self.get_full_name()
 
-    def to_dict(self):
-        return {
+    def to_dict(self, show_lending=True):
+        data = {
             'pk': self.pk,
             'first_name': self.first_name,
             'last_name': self.last_name,
             'ci': self.ci,
             'number': self.number,
             'academic_year': self.academic_year,
+            'detail_url': self.get_detail_url(),
         }
+        if show_lending:
+            queryset = Lending.objects.filter(student_id=self.id)
+            lending = []
+            for q in queryset:
+                lending.append(q.to_dict(False))
+            data['lending'] = lending
+        return data
 
 
 class Lending(models.Model):
@@ -59,10 +77,12 @@ class Lending(models.Model):
     def __str__(self):
         return '{} --> {}'.format(self.student, self.book)
 
-    def to_dict(self):
-        return {
+    def to_dict(self, show_student=True):
+        data = {
             'pk': self.pk,
-            'student': self.student.to_dict(),
             'book': self.book.to_dict(),
             'date': self.date,
         }
+        if show_student:
+            data['student'] = self.student.to_dict(False)
+        return data

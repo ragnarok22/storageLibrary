@@ -44,22 +44,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for student in student_list %}
-                        <tr data-pk="{{ student.pk }}" data-type="detail">
-                            <td>{{ student.number }}</td>
-                            <td>{{ student.first_name }}</td>
-                            <td>{{ student.last_name }}</td>
-                            <td>
-                                <a href="{% url 'lending:student-detail' student.pk %}"><i class="fa fa-eye"></i></a>
-                                <a href="#"><i class="fa fa-remove"></i></a>
-                            </td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td colspan="3">No se encuentra ning&uacute;n estudiante con ese criterio de b&uacute;squeda
-                            </td>
-                        </tr>
-                    {% endfor %}
+                    <!-- Student List here by ajax request -->
                     </tbody>
                 </table>
             </div>
@@ -78,7 +63,7 @@
                     <p id="number"></p>
                     <p id="ci"></p>
                     <p id="academic-year"></p>
-                    <p id="books">libros prestados: </p>
+                    <p id="lending"></p>
                 </div>
                 <!-- Card content -->
                 <!-- Card footer -->
@@ -105,23 +90,8 @@
                 $('#type').val('{{ type }}');
             {% endif %}
 
-            $.ajax('{% url "lending:student-query" %}', {  // testing
-                method: 'GET',
-                success: function (a) {
-                    console.log(a['object_list']);
-                },
-                error: function (response, status) {
-                    swal({
-                        type: 'error',
-                        title: status,
-                        text: 'Ha ocurrido un error'
-                    });
-                }
-            });
-
-            $('tr td a').click(function (event) {
-                event.preventDefault();
-                $.ajax($(this).prop('href'), {
+            function get_student_detail(href) {
+                $.ajax(href, {
                     method: 'GET',
                     success: function (data) {
                         $('#number').html('N&uacute;mero: ' + data['number']);
@@ -130,18 +100,59 @@
                         $('#first-name').html('Nombre: ' + data['first_name']);
                         $('#last-name').html('Apellidos: ' + data['last_name']);
                         $('#student-info').attr('style', 'display: flex');
-                        console.log(data);
+                        let lending_html = '';
+                        if (data['lending'].length !== 0) {
+                            lending_html = '<h4>libros prestados: </h4><ol>';
+                            for (let i = 0; i < data['lending'].length; i++) {
+                                lending_html += '<li>' + data['lending'][i]['book']['name'] + '</li>';
+                            }
+                            lending_html += '</ol>';
+                        }
+                        $('#lending').html(lending_html);
                     },
                     error: function (response, status) {
                         swal({
-                            type: 'error',
+                            type: 'Error',
                             title: status,
-                            text: 'Ha ocurrido un error'
+                            text: 'No se pudo obtener la información del estudiante'
                         });
                     }
                 });
-                $('#delete').attr('href', '');
-            });
+            }
+
+            function get_student_list() {
+                $.ajax('{% url "lending:student-query" %}', {  // testing
+                    method: 'GET',
+                    success: function (response) {
+                        const student_list = response['object_list'];
+                        let student_html = '';
+                        for (let i = 0; i < student_list.length; i++) {
+                            const student = student_list[i];
+                            student_html += '<tr data-pk="' + student['pk'] + '"  data-type="detail"><td>' +
+                                student['number'] + '</td><td>' + student['first_name'] + '</td><td>' +
+                                student['last_name'] + '</td><td><a href="' + student['detail_url'] +
+                                '" data-type="detail"><i class="fa fa-eye"></i></a>' +
+                                '<a href="#"><i class="fa fa-remove"></i></a></td></tr>';
+                        }
+                        $('tbody').html(student_html);
+                        $('tr td a').click(function (event) {
+                            event.preventDefault();
+                            get_student_detail($(this).prop('href'));
+
+                            $('#delete').attr('href', '');
+                        });
+                    },
+                    error: function (response, status) {
+                        swal({
+                            type: 'Error',
+                            title: status,
+                            text: 'No se pudo obtener la información del servidor'
+                        });
+                    }
+                });
+            }
+
+            get_student_list();
         });
     </script>
 {% endblock %}
