@@ -12,6 +12,12 @@ urlpatterns = [
 
     path('book/list/', views.BookListView.as_view(), name='book-list'),
     path('book/create/', views.BookCreateView.as_view(), name='book-create'),
+    path('book/<int:pk>/detail/', views.BookDetailView.as_view(), name='book-detail'),
     path('book/<int:pk>/update/', views.BookUpdateView.as_view(), name='book-update'),
     path('book/<int:pk>/delete/', views.BookDeleteView.as_view(), name='book-delete'),
+
+    path('lending/create/', views.LendingCreateView.as_view(), name='lending-create'),
+    path('lending/query/', views.LendingQueryView.as_view(), name='lending-query'),
+    path('lending/<int:pk>/detail/', views.LendingDetailView.as_view(), name='lending-detail'),
+    path('lending/<int:pk>/delete/', views.LendingDeleteView.as_view(), name='lending-delete'),
 ]

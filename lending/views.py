@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from lending import mixins, forms
-from lending.models import Book, Student
+from lending.models import Book, Student, Lending
 
 
 class BookListView(mixins.AjaxableListMixin):
@@ -85,3 +85,33 @@ class StudentUpdateView(generic.UpdateView, mixins.AjaxablePostMixin):
 
     def get_success_url(self):
         return reverse_lazy('lending:student-detail', kwargs={'pk': self.object.pk})
+
+
+class LendingCreateView(mixins.AjaxablePostMixin, generic.CreateView):
+    model = Lending
+    success_url = reverse_lazy('lending:student-query')
+    fields = ['student', 'book']
+
+
+class LendingQueryView(mixins.AjaxableListMixin):
+    model = Lending
+
+    def get_queryset(self):
+        student_pk = self.request.GET.get('student', None)
+        book_pk = self.request.GET.get('book', None)
+
+        if student_pk:
+            return Lending.objects.filter(student_pk=student_pk)
+        elif book_pk:
+            return Lending.objects.filter(book_pk=book_pk)
+        else:
+            return super().get_queryset()
+
+
+class LendingDetailView(mixins.AjaxableDetailMixin):
+    model = Lending
+
+
+class LendingDeleteView(mixins.AjaxableDeleteMixin):
+    model = Lending
+    success_url = reverse_lazy('lending:student-query')
