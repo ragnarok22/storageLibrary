@@ -149,6 +149,9 @@
                                 '" data-type="detail"><i class="fa fa-eye"></i></a>' +
                                 '<a href="#"><i class="fa fa-remove"></i></a></td></tr>';
                         }
+                        if (student_html === '') {
+                            student_html = '<tr><td class="text-center" colspan="4">No se han encontrado estudiantes</td></tr>';
+                        }
                         $('tbody').html(student_html);
                         $('tr td a[data-type="detail"]').click(function (event) {
                             event.preventDefault();
