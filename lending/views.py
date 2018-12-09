@@ -74,7 +74,7 @@ class StudentCreateView(generic.CreateView):
     success_url = reverse_lazy('lending:student-query')
 
 
-class StudentDeleteView(generic.DeleteView):
+class StudentDeleteView(mixins.AjaxableDeleteMixin):
     model = Student
     success_url = reverse_lazy('lending:student-query')
 

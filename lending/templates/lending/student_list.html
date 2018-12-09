@@ -147,7 +147,7 @@
                                 student['number'] + '</td><td>' + student['first_name'] + '</td><td>' +
                                 student['last_name'] + '</td><td><a href="' + student['detail_url'] +
                                 '" data-type="detail"><i class="fa fa-eye"></i></a>' +
-                                '<a href="#"><i class="fa fa-remove"></i></a></td></tr>';
+                                '<a href="' + student['delete_url'] + '" data-type="delete"><i class="fa fa-remove"></i></a></td></tr>';
                         }
                         if (student_html === '') {
                             student_html = '<tr><td class="text-center" colspan="4">No se han encontrado estudiantes</td></tr>';
@@ -157,12 +157,48 @@
                             event.preventDefault();
                             get_student_detail($(this).prop('href'));
                         });
+                        $('tr td a[data-type="delete"]').click(function (event) {
+                            event.preventDefault();
+                            delete_student($(this).prop('href'));
+                        });
                     },
                     error: function (response, status) {
                         swal({
                             type: 'Error',
                             title: status,
                             text: 'No se pudo obtener la información del servidor'
+                        });
+                    }
+                });
+            }
+
+            function delete_student(href) {
+                swal({
+                    title: '¿Estás seguro?',
+                    text: "No podrás recuperar la información",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Seguro',
+                    cancelButtonText: 'Cancelar',
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax(href, {
+                            method: 'POST',
+                            success: function (response, status) {
+                                console.log(response);
+                                swal(
+                                    'Eliminado',
+                                    response['message'],
+                                    status
+                                ).then(() => {
+                                    get_student_list();
+                                });
+                            },
+                            error: function (response, status) {
+
+                            },
                         });
                     }
                 });
