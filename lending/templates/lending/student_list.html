@@ -14,7 +14,7 @@
                     <input type="text" name="q" id="query" class="form-control">
                     <label for="query"></label>
                 </div>
-                <!-- Campo de busqueda-->
+                <!-- ./Campo de busqueda-->
                 <!-- Campo de tipo de busqueda-->
                 <div class="md-form">
                     <select name="type" id="type" class="form-control">
@@ -24,14 +24,14 @@
                     </select>
                     <label for="type"></label>
                 </div>
-                <!-- Campo de tipo de busqueda-->
+                <!-- ./Campo de tipo de busqueda-->
                 <!-- Boton de buscar-->
                 <div class="md-form">
                     <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                 </div>
-                <!-- Boton de buscar-->
+                <!-- ./Boton de buscar-->
             </form>
-            <!-- Formulario de busqueda-->
+            <!-- ./Formulario de busqueda-->
             <!-- Tabla de contenido-->
             <div class="row">
                 <table id="studentTable" class="table table-striped" cellspacing="0" width="100%">
@@ -48,7 +48,7 @@
                     </tbody>
                 </table>
             </div>
-            <!-- Tabla de contenido-->
+            <!-- ./Tabla de contenido-->
         </div>
         <!-- Student Info-->
         <div class="col-6">
@@ -65,16 +65,18 @@
                     <p id="academic-year"></p>
                     <p id="lending"></p>
                 </div>
-                <!-- Card content -->
+                <!-- ./Card content -->
                 <!-- Card footer -->
                 <div class="card-footer">
-                    <a href="#" class="btn btn-red" id="delete">Eliminar</a>
-                    <a href="#" class="btn btn-primary" id="edit">Editar</a>
+                    <a href="#" class="btn btn-red" data-type="delete" id="delete">Eliminar</a>
+                    <a href="#" class="btn btn-primary" data-type="update" id="update">Editar</a>
                 </div>
-                <!-- Card footer -->
+                <!-- ./Card footer -->
             </div>
         </div>
-        <!-- Student Info-->
+        <!-- ./Student Info -->
+    <!-- Modal update student -->
+    <!-- ./Modal update student -->
     </div>
 
 
@@ -109,6 +111,8 @@
                         $('#academic-year').html('A&ntilde;o acad&eacute;mico: ' + data['academic_year']);
                         $('#first-name').html('Nombre: ' + data['first_name']);
                         $('#last-name').html('Apellidos: ' + data['last_name']);
+                        $('#delete').prop('href', data['delete_url']);
+                        $('#update').prop('href', data['update_url']);
                         $('#student-info').attr('style', 'display: flex');
                         let lending_html = '';
                         if (data['lending'].length !== 0) {
@@ -157,9 +161,13 @@
                             event.preventDefault();
                             get_student_detail($(this).prop('href'));
                         });
-                        $('tr td a[data-type="delete"]').click(function (event) {
+                        $('a[data-type="delete"]').click(function (event) {
                             event.preventDefault();
                             delete_student($(this).prop('href'));
+                        });
+                        $('a[data-type="update"]').click(function (event) {
+                            event.preventDefault();
+                            update_student($(this).prop('href'));
                         });
                     },
                     error: function (response, status) {
@@ -207,6 +215,15 @@
                         });
                     }
                 });
+            }
+
+            function update_student(href){
+
+                //show modal
+                //get click in save changes
+                //post ajax request
+                //show message
+                alert('Not implemented');
             }
 
             $('form[method="get"]').submit(function (event) {

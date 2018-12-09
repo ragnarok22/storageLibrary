@@ -79,6 +79,9 @@ class StudentDeleteView(mixins.AjaxableDeleteMixin):
     success_url = reverse_lazy('lending:student-query')
 
 
-class StudentUpdateView(generic.UpdateView):
+class StudentUpdateView(generic.UpdateView, mixins.AjaxablePostMixin):
     model = Student
-    success_url = reverse_lazy('lending:student-detail')
+    fields = ['first_name', 'last_name', 'ci', 'number', 'academic_year']
+
+    def get_success_url(self):
+        return reverse_lazy('lending:student-detail', kwargs={'pk': self.object.pk})

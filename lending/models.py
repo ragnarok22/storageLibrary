@@ -45,6 +45,9 @@ class Student(models.Model):
     def get_delete_url(self):
         return reverse_lazy('lending:student-delete', kwargs={'pk': self.pk})
 
+    def get_update_url(self):
+        return reverse_lazy('lending:student-update', kwargs={'pk': self.pk})
+
     def __str__(self):
         return self.get_full_name()
 
@@ -57,6 +60,7 @@ class Student(models.Model):
             'number': self.number,
             'academic_year': self.academic_year,
             'detail_url': self.get_detail_url(),
+            'update_url': self.get_update_url(),
             'delete_url': self.get_delete_url(),
         }
         if show_lending:
