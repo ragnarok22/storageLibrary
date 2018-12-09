@@ -2,11 +2,6 @@ from django.db import models
 from django.urls import reverse_lazy
 
 
-class CustomModel(models.Model):
-    def to_dict(self):
-        raise NotImplemented
-
-
 class Book(models.Model):
     name = models.CharField('Nombre', max_length=100)
     number = models.PositiveIntegerField('Número', default=0)
