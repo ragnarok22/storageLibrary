@@ -86,3 +86,14 @@ class Lending(models.Model):
         if show_student:
             data['student'] = self.student.to_dict(False)
         return data
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.book.cant -= 1
+        self.book.save()
+        return super().save(force_insert, force_update, using, update_fields)
+
+    def delete(self, using=None, keep_parents=False):
+        self.book.cant += 1
+        self.book.save()
+        return super().delete(using, keep_parents)
