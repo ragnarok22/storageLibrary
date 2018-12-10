@@ -80,11 +80,15 @@ class Lending(models.Model):
     def __str__(self):
         return '{} --> {}'.format(self.student, self.book)
 
+    def get_delete_url(self):
+        return reverse_lazy('lending:lending-delete', kwargs={'pk': self.pk})
+
     def to_dict(self, show_student=True):
         data = {
             'pk': self.pk,
             'book': self.book.to_dict(),
             'date': self.date,
+            'delete_url': self.get_delete_url(),
         }
         if show_student:
             data['student'] = self.student.to_dict(False)

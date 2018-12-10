@@ -75,8 +75,8 @@
             </div>
         </div>
         <!-- ./Student Info -->
-    <!-- Modal update student -->
-    <!-- ./Modal update student -->
+        <!-- Modal update student -->
+        <!-- ./Modal update student -->
     </div>
 
 
@@ -116,13 +116,55 @@
                         $('#student-info').attr('style', 'display: flex');
                         let lending_html = '';
                         if (data['lending'].length !== 0) {
+                            const lendings = data['lending'];
+                            console.log(lendings);
                             lending_html = '<h4>libros prestados: </h4><ol>';
-                            for (let i = 0; i < data['lending'].length; i++) {
-                                lending_html += '<li>' + data['lending'][i]['book']['name'] + '</li>';
+                            for (let i = 0; i < lendings.length; i++) {
+                                let lending = lendings[i];
+                                lending_html += '<li>' + lending['book']['name'] +
+                                    ' <a href="' + lending['delete_url'] +
+                                    '" data-type="remove-lending" data-name="' + lending['book']['name'] +
+                                    '"><i class="fa fa-remove"></i></a></li>';
                             }
                             lending_html += '</ol>';
+                            $('#lending').html(lending_html);
+                            $('a[data-type="remove-lending"]').click(function (event) {
+                                event.preventDefault();
+                                swal({
+                                    title: '¿Estás seguro?',
+                                    text: "¿Ya el estudiante entregó el libro '" + $(this).attr('data-name') + "'?",
+                                    type: 'question',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Si',
+                                    cancelButtonText: 'No',
+                                }).then((result) => {
+                                    if (result.value) {
+                                        $.ajax($(this).prop('href'), {
+                                            method: 'POST',
+                                            success: function (response, status) {
+                                                swal(
+                                                    'Hecho',
+                                                    'Se ha entregado el libro',
+                                                    status
+                                                );
+                                                //reload the student detail by ajax request
+                                                get_student_detail(href);
+
+                                            },
+                                            error: function (response, status) {
+                                                swal(
+                                                    'Error',
+                                                    'No se ha podido ejecutar la acción',
+                                                    status
+                                                );
+                                            },
+                                        });
+                                    }
+                                });
+                            });
+                        } else {
+                            $('#lending').html(lending_html);
                         }
-                        $('#lending').html(lending_html);
                     },
                     error: function (response, status) {
                         swal({
@@ -217,8 +259,8 @@
                 });
             }
 
-            function update_student(href){
-
+            function update_student(href) {
+                console.log(href);
                 //show modal
                 //get click in save changes
                 //post ajax request
