@@ -117,7 +117,6 @@
                         let lending_html = '';
                         if (data['lending'].length !== 0) {
                             const lendings = data['lending'];
-                            console.log(lendings);
                             lending_html = '<h4>libros prestados: </h4><ol>';
                             for (let i = 0; i < lendings.length; i++) {
                                 let lending = lendings[i];
@@ -185,7 +184,6 @@
                     },
                     success: function (response) {
                         const student_list = response['student_list'];
-                        console.log(student_list);
                         let student_html = '';
                         for (let i = 0; i < student_list.length; i++) {
                             const student = student_list[i];
@@ -237,7 +235,6 @@
                         $.ajax(href, {
                             method: 'POST',
                             success: function (response, status) {
-                                console.log(response);
                                 swal(
                                     'Eliminado',
                                     response['message'],
