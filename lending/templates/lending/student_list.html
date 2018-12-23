@@ -1,4 +1,5 @@
 {% extends 'navbar.html' %}
+{% load static %}
 
 {% block title %}
     Estudiantes
@@ -43,7 +44,7 @@
                         <th class="th-sm">Acciones</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody data-href="{% url 'lending:student-query' %}">
                     <!-- Student List here by ajax request -->
                     </tbody>
                 </table>
@@ -69,13 +70,80 @@
                 <!-- Card footer -->
                 <div class="card-footer">
                     <a href="#" class="btn btn-red" data-type="delete" id="delete">Eliminar</a>
-                    <a href="#" class="btn btn-primary" data-type="update" id="update">Editar</a>
+                    <a href="#" class="btn btn-primary" data-type="update" id="update" data-toggle="modal"
+                       data-target="#update-student">Editar</a>
                 </div>
                 <!-- ./Card footer -->
             </div>
         </div>
         <!-- ./Student Info -->
         <!-- Modal update student -->
+        <div class="modal fade" id="update-student" tabindex="-1" role="dialog" aria-labelledby="update-student"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form method="post" id="update-student-form">
+                    {% csrf_token %}
+                    <div class="modal-content">
+                        <!-- Modal header -->
+                        <div class="modal-header text-center">
+                            <h4 class="modal-title w-100 font-weight-bold">Editar estudiante</h4>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!-- ./Modal header -->
+                        <!-- Modal body -->
+                        <div class="modal-body mx-3">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="md-form">
+                                        <input type="text" name="first_name" id="student-firstname"
+                                               class="form-control">
+                                        <label for="student-firstname" id="student-firstname-label">Nombre</label>
+                                    </div>
+                                </div>
+                                <div class="col-7">
+                                    <div class="md-form">
+                                        <input type="text" name="last_name" id="student-lastname" class="form-control">
+                                        <label for="student-lastname" id="student-lastname-label">Apellidos</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="md-form">
+                                        <input type="text" name="ci" id="student-ci" class="form-control">
+                                        <label for="student-ci" id="student-ci-label">Carnet de Identidad</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="md-form">
+                                        <input type="number" name="number" id="student-number" class="form-control">
+                                        <label for="student-number" id="student-number-label">Número</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="md-form">
+                                        <input type="number" name="academic_year" id="student-academic-year"
+                                               class="form-control" min="1" max="5">
+                                        <label for="student-academic-year" id="student-academic-year-label">Año
+                                            académico</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Modal body -->
+                        <!-- Modal footer -->
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button type="submit" class="btn btn-default">Salvar cambios</button>
+                        </div>
+                        <!-- ./Modal footer -->
+                    </div>
+                </form>
+            </div>
+        </div>
         <!-- ./Modal update student -->
     </div>
 
@@ -101,176 +169,7 @@
                     query.prop('type', 'text');
                 }
             });
-
-            function get_student_detail(href) {
-                $.ajax(href, {
-                    method: 'GET',
-                    success: function (data) {
-                        $('#number').html('N&uacute;mero: ' + data['number']);
-                        $('#ci').html('Carnet de identidad: ' + data['ci']);
-                        $('#academic-year').html('A&ntilde;o acad&eacute;mico: ' + data['academic_year']);
-                        $('#first-name').html('Nombre: ' + data['first_name']);
-                        $('#last-name').html('Apellidos: ' + data['last_name']);
-                        $('#delete').prop('href', data['delete_url']);
-                        $('#update').prop('href', data['update_url']);
-                        $('#student-info').attr('style', 'display: flex');
-                        let lending_html = '';
-                        if (data['lending'].length !== 0) {
-                            const lendings = data['lending'];
-                            lending_html = '<h4>libros prestados: </h4><ol>';
-                            for (let i = 0; i < lendings.length; i++) {
-                                let lending = lendings[i];
-                                lending_html += '<li>' + lending['book']['name'] +
-                                    ' <a href="' + lending['delete_url'] +
-                                    '" data-type="remove-lending" data-name="' + lending['book']['name'] +
-                                    '"><i class="fa fa-remove"></i></a></li>';
-                            }
-                            lending_html += '</ol>';
-                            $('#lending').html(lending_html);
-                            $('a[data-type="remove-lending"]').click(function (event) {
-                                event.preventDefault();
-                                swal({
-                                    title: '¿Estás seguro?',
-                                    text: "¿Ya el estudiante entregó el libro '" + $(this).attr('data-name') + "'?",
-                                    type: 'question',
-                                    showCancelButton: true,
-                                    confirmButtonText: 'Si',
-                                    cancelButtonText: 'No',
-                                }).then((result) => {
-                                    if (result.value) {
-                                        $.ajax($(this).prop('href'), {
-                                            method: 'POST',
-                                            success: function (response, status) {
-                                                swal(
-                                                    'Hecho',
-                                                    'Se ha entregado el libro',
-                                                    status
-                                                );
-                                                //reload the student detail by ajax request
-                                                get_student_detail(href);
-
-                                            },
-                                            error: function (response, status) {
-                                                swal(
-                                                    'Error',
-                                                    'No se ha podido ejecutar la acción',
-                                                    status
-                                                );
-                                            },
-                                        });
-                                    }
-                                });
-                            });
-                        } else {
-                            $('#lending').html(lending_html);
-                        }
-                    },
-                    error: function (response, status) {
-                        swal({
-                            type: status,
-                            title: 'Error',
-                            text: 'No se pudo obtener la información del estudiante'
-                        });
-                    }
-                });
-            }
-
-            function get_student_list() {
-                $.ajax('{% url "lending:student-query" %}', {  // testing
-                    method: 'GET',
-                    data: {
-                        'q': query.val(),
-                        'type': query_type.val(),
-                    },
-                    success: function (response) {
-                        const student_list = response['student_list'];
-                        let student_html = '';
-                        for (let i = 0; i < student_list.length; i++) {
-                            const student = student_list[i];
-                            student_html += '<tr data-pk="' + student['pk'] + '"  data-type="detail"><td>' +
-                                student['number'] + '</td><td>' + student['first_name'] + '</td><td>' +
-                                student['last_name'] + '</td><td><a href="' + student['detail_url'] +
-                                '" data-type="detail"><i class="fa fa-eye"></i></a>' +
-                                '<a href="' + student['delete_url'] + '" data-type="delete"><i class="fa fa-remove"></i></a></td></tr>';
-                        }
-                        if (student_html === '') {
-                            student_html = '<tr><td class="text-center" colspan="4">No se han encontrado estudiantes</td></tr>';
-                        }
-                        $('tbody').html(student_html);
-                        $('tr td a[data-type="detail"]').click(function (event) {
-                            event.preventDefault();
-                            get_student_detail($(this).prop('href'));
-                        });
-                        $('a[data-type="delete"]').click(function (event) {
-                            event.preventDefault();
-                            delete_student($(this).prop('href'));
-                        });
-                        $('a[data-type="update"]').click(function (event) {
-                            event.preventDefault();
-                            update_student($(this).prop('href'));
-                        });
-                    },
-                    error: function (response, status) {
-                        swal({
-                            type: 'Error',
-                            title: status,
-                            text: 'No se pudo obtener la información del servidor'
-                        });
-                    }
-                });
-            }
-
-            function delete_student(href) {
-                swal({
-                    title: '¿Estás seguro?',
-                    text: "No podrás recuperar la información",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonClass: 'btn btn-danger',
-                    cancelButtonClass: 'btn btn-default',
-                    confirmButtonText: '<i class="fa fa-trash fa-2x"></i>',
-                    cancelButtonText: '<i class="fa fa-close fa-2x"></i>',
-                }).then((result) => {
-                    if (result.value) {
-                        $.ajax(href, {
-                            method: 'POST',
-                            success: function (response, status) {
-                                swal(
-                                    'Eliminado',
-                                    response['message'],
-                                    status
-                                ).then(() => {
-                                    get_student_list();
-                                });
-                            },
-                            error: function (response, status) {
-                                console.log(response);
-                                swal(
-                                    'Error',
-                                    'No se ha podido ejecutar',
-                                    status
-                                );
-                            },
-                        });
-                    }
-                });
-            }
-
-            function update_student(href) {
-                console.log(href);
-                //show modal
-                //get click in save changes
-                //post ajax request
-                //show message
-                alert('Not implemented');
-            }
-
-            $('form[method="get"]').submit(function (event) {
-                event.preventDefault();
-                get_student_list();
-            });
-
-            get_student_list();
         });
     </script>
+    <script src="{% static 'lending/js/student_list.js' %}"></script>
 {% endblock %}
