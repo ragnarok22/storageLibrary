@@ -16,7 +16,11 @@ class Book(models.Model):
             'pk': self.pk,
             'name': self.name,
             'number': self.number,
-            'cant': self.cant
+            'cant': self.cant,
+            'author': self.author,
+            'publish_year': self.publish_year,
+            'editorial': self.editorial,
+            'study_topic': self.study_topic.to_dict()
         }
 
     def __str__(self):
@@ -137,11 +141,11 @@ class BibliographicPlan(models.Model):
     )
 
     year = models.PositiveSmallIntegerField('Año', choices=YEAR_CHOICES)
-    career = models.CharField('Carrera', max_length=100)
-    modality = models.CharField('Modalidad', max_length=2, choices=MODALITY_CHOICES)
-    study_topic = models.CharField('Plan de estudio', max_length=3)
-    course = models.CharField('Curso', max_length=10)
     semester = models.CharField('Semestre', max_length=1, choices=SEMESTER_CHOICES)
+    career = models.CharField('Carrera', max_length=100)
+    course = models.CharField('Curso', max_length=10)
+    modality = models.CharField('Modalidad', max_length=2, choices=MODALITY_CHOICES)
+    study_plan = models.CharField('Plan de estudio', max_length=3)
 
     def __str__(self):
         return 'Plan bibliográfico de la carrera {}. Curso {}'.format(self.career, self.course)
@@ -149,6 +153,17 @@ class BibliographicPlan(models.Model):
     class Meta:
         verbose_name = 'Plan bibliográfico'
         verbose_name_plural = 'Planes bibliográficos'
+
+    def to_dict(self):
+        return {
+            'pk': self.pk,
+            'year': self.year,
+            'career': self.career,
+            'modality': self.modality,
+            'study_plan': self.study_plan,
+            'course': self.course,
+            'semester': self.semester
+        }
 
 
 class StudyTopic(models.Model):
@@ -161,3 +176,10 @@ class StudyTopic(models.Model):
     class Meta:
         verbose_name = 'Asignatura'
         verbose_name_plural = 'Asignaturas'
+
+    def to_dict(self):
+        return {
+            'pk': self.pk,
+            'name': self.name,
+            'bibliographic_plan': self.bibliographic_plan.to_dict(),
+        }
