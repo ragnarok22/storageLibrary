@@ -44,7 +44,7 @@
                         <th class="th-sm">Acciones</th>
                     </tr>
                     </thead>
-                    <tbody data-href="{% url 'lending:student-query' %}">
+                    <tbody data-href="{% url 'lending:student-query' %}" id="student-list">
                     <!-- Student List here by ajax request -->
                     </tbody>
                 </table>
@@ -72,6 +72,10 @@
                     <a href="#" class="btn btn-red" data-type="delete" id="delete">Eliminar</a>
                     <a href="#" class="btn btn-primary" data-type="update" id="update" data-toggle="modal"
                        data-target="#update-student">Editar</a>
+                    <a href="#" class="btn btn-outline-primary" data-toggle="modal" data-target="#lending-modal"
+                       id="add-lending">
+                        Añadir préstamo
+                    </a>
                 </div>
                 <!-- ./Card footer -->
             </div>
@@ -146,6 +150,58 @@
         </div>
         <!-- ./Modal update student -->
     </div>
+
+    <!-- Modal add lending -->
+    <div class="modal fade" id="lending-modal" tabindex="-1" role="dialog" aria-labelledby="lending-modal"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!-- Modal header -->
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Añadir préstamo</h4>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- ./Modal header -->
+                <!-- Modal body -->
+                <div class="modal-body mx-3">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-10">
+                                <div class="md-form">
+                                    <input type="text" class="form-control" id="search-book">
+                                    <label for="search-book">Nombre del libro</label>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="md-form">
+                                    <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="th-sm">Nombre</th>
+                                        <th class="th-sm">Editorial</th>
+                                        <th class="th-sm">Año</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="book-list" data-href="{% url 'lending:book-list' %}">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./Modal body -->
+            </div>
+        </div>
+    </div>
+    <!-- ./Modal add lending -->
 
 
 {% endblock %}

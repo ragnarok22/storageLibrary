@@ -87,7 +87,7 @@ $(function () {
     }
 
     function get_student_list() {
-        $.ajax($('tbody').prop('data-href'), {  // testing
+        $.ajax($('tbody#student-list').prop('data-href'), {
             method: 'GET',
             data: {
                 'q': query.val(),
@@ -107,7 +107,7 @@ $(function () {
                 if (student_html === '') {
                     student_html = '<tr><td class="text-center" colspan="4">No se han encontrado estudiantes</td></tr>';
                 }
-                $('tbody').html(student_html);
+                $('tbody#student-list').html(student_html);
                 $('tr td a[data-type="detail"]').click(function (event) {
                     event.preventDefault();
                     get_student_detail($(this).prop('href'));
@@ -205,4 +205,33 @@ $(function () {
     });
 
     get_student_list();
+
+    function get_book_list() {
+        $.ajax($('tbody#book-list').attr('data-href'), {
+            method: 'GET',
+            success: function (response) {
+                let result_html = '';
+                const book_list = response['book_list']
+                for (let i = 0; i < book_list.length; i++) {
+                    const book = book_list[i];
+                    result_html += '<tr><td>' + book['name'] + '</td><td>' + book['editorial'] +
+                        '</td><td>' + book['publish_year'] + '</td><td><a href="#"><i class="fa fa-plus"></i></a></td></tr>';
+                }
+                $('#book-list').html(result_html);
+            },
+            error: function (response, status) {
+                swal({
+                    title: 'Error',
+                    html: 'Ha ocurrido un error',
+                    type: status
+                });
+            }
+        });
+    }
+
+    $('#add-lending').click(function (event) {
+        event.preventDefault();
+        get_book_list();
+    });
+
 });
