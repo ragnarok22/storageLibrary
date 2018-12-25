@@ -6,6 +6,10 @@ class Book(models.Model):
     name = models.CharField('Nombre', max_length=100)
     number = models.PositiveIntegerField('Número', default=0)
     cant = models.PositiveIntegerField('Cantidad', default=0)
+    author = models.CharField('Autor', max_length=200)
+    publish_year = models.PositiveSmallIntegerField('Año de publicación')
+    editorial = models.CharField('Editorial', max_length=100)
+    study_topic = models.ForeignKey('StudyTopic', models.CASCADE, verbose_name='Asignatura')
 
     def to_dict(self):
         return {
@@ -71,6 +75,10 @@ class Student(models.Model):
             data['lending'] = lending
         return data
 
+    class Meta:
+        verbose_name = 'Estudiante'
+        verbose_name_plural = 'Estudiantes'
+
 
 class Lending(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
@@ -104,3 +112,52 @@ class Lending(models.Model):
         self.book.cant += 1
         self.book.save()
         return super().delete(using, keep_parents)
+
+    class Meta:
+        verbose_name = 'Préstamo'
+        verbose_name_plural = 'Préstamos'
+
+
+class BibliographicPlan(models.Model):
+    MODALITY_CHOICES = (
+        ('CD', 'Curso Regular Diurno'),
+        ('CE', 'Curso por encuentro'),
+    )
+    SEMESTER_CHOICES = (
+        ('1', 'Primer Semestre'),
+        ('2', 'Segundo Semestre'),
+    )
+
+    YEAR_CHOICES = (
+        (1, 'Primero'),
+        (2, 'Segundo'),
+        (3, 'Tercero'),
+        (4, 'Cuarto'),
+        (5, 'Quinto'),
+    )
+
+    year = models.PositiveSmallIntegerField('Año', choices=YEAR_CHOICES)
+    career = models.CharField('Carrera', max_length=100)
+    modality = models.CharField('Modalidad', max_length=2, choices=MODALITY_CHOICES)
+    study_topic = models.CharField('Plan de estudio', max_length=3)
+    course = models.CharField('Curso', max_length=10)
+    semester = models.CharField('Semestre', max_length=1, choices=SEMESTER_CHOICES)
+
+    def __str__(self):
+        return 'Plan bibliográfico de la carrera {}. Curso {}'.format(self.career, self.course)
+
+    class Meta:
+        verbose_name = 'Plan bibliográfico'
+        verbose_name_plural = 'Planes bibliográficos'
+
+
+class StudyTopic(models.Model):
+    name = models.CharField('Asignatura', max_length=100)
+    bibliographic_plan = models.ForeignKey('BibliographicPlan', models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Asignatura'
+        verbose_name_plural = 'Asignaturas'
