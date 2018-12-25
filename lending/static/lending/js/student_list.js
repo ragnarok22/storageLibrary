@@ -100,7 +100,7 @@ $(function () {
                     const student = student_list[i];
                     student_html += '<tr data-pk="' + student['pk'] + '"  data-type="detail"><td>' +
                         student['number'] + '</td><td>' + student['first_name'] + '</td><td>' +
-                        student['last_name'] + '</td><td><a href="' + student['detail_url'] +
+                        student['last_name'] + '</td><td class="d-flex"><a href="' + student['detail_url'] +
                         '" data-type="detail"><i class="fa fa-eye"></i></a>' +
                         '<a href="' + student['delete_url'] + '" data-type="delete"><i class="fa fa-remove"></i></a></td></tr>';
                 }

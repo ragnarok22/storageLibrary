@@ -29,3 +29,8 @@ main {
     margin-left: 30%;
     margin-top: 10%;
 }
+
+table.table a {
+    flex: 1 1 auto;
+    text-align: center;
+}
