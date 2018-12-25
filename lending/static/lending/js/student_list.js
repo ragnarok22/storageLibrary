@@ -185,7 +185,7 @@ $(function () {
                     text: 'Se ha guardado éxitosamente',
                 }).then((result) => {
                     if (result.value) {
-                        get_student_detail(url);
+                        //get_student_detail(url);
                     }
                 });
             },
