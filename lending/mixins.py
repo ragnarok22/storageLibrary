@@ -45,6 +45,23 @@ class AjaxablePostMixin(generic.FormView):
             return response
 
 
+class AjaxableCreateMixin(generic.CreateView):
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        if self.request.is_ajax():
+            data = {'pk': self.object.pk}
+            return JsonResponse(data)
+        else:
+            return response
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+        else:
+            return response
+
+
 class AjaxableDeleteMixin(generic.DeleteView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
