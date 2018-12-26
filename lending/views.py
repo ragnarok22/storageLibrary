@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from lending import mixins, forms
-from lending.models import Book, Student, Lending, BibliographicPlan
+from lending.models import Book, Student, Lending, BibliographicPlan, StudyTopic
 
 
 class BookListView(mixins.AjaxableListMixin):
@@ -140,3 +140,28 @@ class BibliographicPlanUpdateView(mixins.AjaxableUpdateMixin):
 class BibliographicPlanDeleteView(mixins.AjaxableDeleteMixin):
     model = BibliographicPlan
     success_url = reverse_lazy('lending:bibliographic-list')
+
+
+class StudyTopicCreateView(mixins.AjaxableCreateMixin):
+    model = StudyTopic
+    fields = '__all__'
+    success_url = reverse_lazy('lending:study-topic-list')
+
+
+class StudyTopicDetailView(mixins.AjaxableDetailMixin):
+    model = StudyTopic
+
+
+class StudyTopicListView(mixins.AjaxableListMixin):
+    model = StudyTopic
+
+
+class StudyTopicUpdateView(mixins.AjaxableUpdateMixin):
+    model = StudyTopic
+    fields = '__all__'
+    success_url = reverse_lazy('lending:study-topic-list')
+
+
+class StudyTopicDeleteView(mixins.AjaxableDeleteMixin):
+    model = StudyTopic
+    success_url = reverse_lazy('lending:study-topic-delete')

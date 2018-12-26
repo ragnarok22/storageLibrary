@@ -26,4 +26,10 @@ urlpatterns = [
     path('bibliographic/<int:pk>/detail/', views.BibliographicPlanDetailView.as_view(), name='bibliographic-detail'),
     path('bibliographic/<int:pk>/update/', views.BibliographicPlanUpdateView.as_view(), name='bibliographic-update'),
     path('bibliographic/<int:pk>/delete/', views.BibliographicPlanDeleteView.as_view(), name='bibliographic-delete'),
+
+    path('study/topic/create/', views.StudyTopicCreateView.as_view(), name='study-topic-create'),
+    path('study/topic/list/', views.StudyTopicListView.as_view(), name='study-topic-list'),
+    path('study/topic/<int:pk>/detail/', views.StudyTopicDetailView.as_view(), name='study-topic-detail'),
+    path('study/topic/<int:pk>/update/', views.StudyTopicUpdateView.as_view(), name='study-topic-update'),
+    path('study/topic/<int:pk>/delete/', views.StudyTopicDeleteView.as_view(), name='study-topic-delete'),
 ]

@@ -18,7 +18,8 @@
                             <div class="dropdown-menu dropdown-primary" aria-labelledby="students">
                                 <a href="{% url 'lending:student-query' %}" class="dropdown-item">Listado de
                                     estudiantes</a>
-                                <a href="{% url 'lending:student-create' %}" class="dropdown-item">A&ntilde;adir un estudiante</a>
+                                <a href="{% url 'lending:student-create' %}" class="dropdown-item">A&ntilde;adir un
+                                    estudiante</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -26,7 +27,20 @@
                                aria-haspopup="true" aria-expanded="false">Libros</a>
                             <div class="dropdown-menu dropdown-primary" aria-labelledby="books">
                                 <a href="{% url 'lending:book-list' %}" class="dropdown-item">Listado de libros</a>
-                                <a href="{% url 'lending:book-create' %}" class="dropdown-item">A&ntilde;adir un libro</a>
+                                <a href="{% url 'lending:book-create' %}" class="dropdown-item">A&ntilde;adir un
+                                    libro</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="bibliographicplan" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">Planes bibliográficos</a>
+                            <div class="dropdown-menu dropdown-primary" aria-labelledby="bibliographicplan">
+                                <a href="{% url 'lending:bibliographic-list' %}" class="dropdown-item">Listado de
+                                    planes</a>
+                                <a href="{% url 'lending:bibliographic-create' %}" class="dropdown-item">A&ntilde;adir
+                                    un plan</a>
+                                <a href="{% url 'lending:study-topic-create' %}" class="dropdown-item">A&ntilde;adir
+                                    una asignatura</a>
                             </div>
                         </li>
                     </ul>
