@@ -45,6 +45,10 @@ class AjaxablePostMixin(generic.FormView):
             return response
 
 
+class AjaxableUpdateMixin(generic.UpdateView, AjaxablePostMixin):
+    pass
+
+
 class AjaxableCreateMixin(generic.CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
