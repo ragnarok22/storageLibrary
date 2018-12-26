@@ -12,10 +12,10 @@ class BookListView(mixins.AjaxableListMixin):
 class BookCreateView(generic.CreateView):
     model = Book
     success_url = reverse_lazy('lending:book-list')
-    fields = ['name', 'number', 'cant']
+    fields = '__all__'
 
 
-class BookUpdateView(generic.UpdateView):
+class BookUpdateView(generic.UpdateView):  # no usado
     model = Book
     fields = ['name', 'number', 'cant']
 
@@ -31,7 +31,7 @@ class BookDetailView(generic.DetailView):  # No usado
         return context
 
 
-class BookDeleteView(generic.DeleteView):
+class BookDeleteView(generic.DeleteView):  # no usado
     model = Book
     success_url = reverse_lazy('lending:book-list')
 
@@ -108,7 +108,7 @@ class LendingQueryView(mixins.AjaxableListMixin):
             return super().get_queryset()
 
 
-class LendingDetailView(mixins.AjaxableDetailMixin):
+class LendingDetailView(mixins.AjaxableDetailMixin):  # no usado
     model = Lending
 
 
