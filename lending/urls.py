@@ -20,4 +20,10 @@ urlpatterns = [
     path('lending/query/', views.LendingQueryView.as_view(), name='lending-query'),
     path('lending/<int:pk>/detail/', views.LendingDetailView.as_view(), name='lending-detail'),
     path('lending/<int:pk>/delete/', views.LendingDeleteView.as_view(), name='lending-delete'),
+
+    path('bibliographic/create/', views.BibliographicPlanCreateView.as_view(), name='bibliographic-create'),
+    path('bibliographic/list/', views.BibliographicPlanListView.as_view(), name='bibliographic-list'),
+    path('bibliographic/<int:pk>/detail/', views.BibliographicPlanDetailView.as_view(), name='bibliographic-detail'),
+    path('bibliographic/<int:pk>/update/', views.BibliographicPlanUpdateView.as_view(), name='bibliographic-update'),
+    path('bibliographic/<int:pk>/delete/', views.BibliographicPlanDeleteView.as_view(), name='bibliographic-delete'),
 ]

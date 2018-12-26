@@ -1,0 +1,67 @@
+{% extends 'navbar.html' %}
+
+{% block title %}
+    Plan bibliográfico
+{% endblock %}
+
+{% block main %}
+    <div class="row my-4">
+        <div class="col-12 my-3">
+            <h3 class="text-center">Plan bibliográfico de la carrera {{ bibliographicplan.career }}</h3>
+        </div>
+        <div class="col-12">
+            <h2 class="text-center">
+                Curso {{ bibliographicplan.course }}, {{ bibliographicplan.get_semester_display }}</h2>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-2">Año: {{ bibliographicplan.get_year_display }}</div>
+        <div class="col-4">Carrera: {{ bibliographicplan.career }}</div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            Modalidad: {{ bibliographicplan.get_modality_display }}
+        </div>
+        <div class="col-12">
+            Plan de estudios: {{ bibliographicplan.study_plan }}
+        </div>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Asignatura</th>
+                <th>Libros</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for studytopic in bibliographicplan.studytopic_set.all %}
+                <tr>
+                    <td>{{ studytopic.name }}</td>
+                    <td colspan="3">
+                        <h6 class="h6">Autor y título</h6>
+                        {% for book in studytopic.book_set.all %}
+                            <p>{{ book.name }}</p>
+                        {% endfor %}
+                    </td>
+                    <td colspan="3">
+                        <h6 class="h6">Editorial</h6>
+                        {% for book in studytopic.book_set.all %}
+                            <p>{{ book.editorial }}</p>
+                        {% endfor %}
+                    </td>
+                    <td colspan="3">
+                        <h6 class="h6">Año</h6>
+                        {% for book in studytopic.book_set.all %}
+                            <p>{{ book.publish_year }}</p>
+                        {% endfor %}
+                    </td>
+
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from lending import mixins, forms
-from lending.models import Book, Student, Lending
+from lending.models import Book, Student, Lending, BibliographicPlan
 
 
 class BookListView(mixins.AjaxableListMixin):
@@ -79,7 +79,7 @@ class StudentDeleteView(mixins.AjaxableDeleteMixin):
     success_url = reverse_lazy('lending:student-query')
 
 
-class StudentUpdateView(generic.UpdateView, mixins.AjaxablePostMixin):
+class StudentUpdateView(mixins.AjaxableUpdateMixin):
     model = Student
     fields = ['first_name', 'last_name', 'ci', 'number', 'academic_year']
 
@@ -87,7 +87,7 @@ class StudentUpdateView(generic.UpdateView, mixins.AjaxablePostMixin):
         return reverse_lazy('lending:student-detail', kwargs={'pk': self.object.pk})
 
 
-class LendingCreateView(mixins.AjaxablePostMixin, generic.CreateView):
+class LendingCreateView(mixins.AjaxableCreateMixin):
     model = Lending
     success_url = reverse_lazy('lending:student-query')
     fields = ['student', 'book']
@@ -115,3 +115,28 @@ class LendingDetailView(mixins.AjaxableDetailMixin):  # no usado
 class LendingDeleteView(mixins.AjaxableDeleteMixin):
     model = Lending
     success_url = reverse_lazy('lending:student-query')
+
+
+class BibliographicPlanCreateView(mixins.AjaxableCreateMixin):
+    model = BibliographicPlan
+    fields = '__all__'
+    success_url = reverse_lazy('lending:bibliographic-list')
+
+
+class BibliographicPlanDetailView(mixins.AjaxableDetailMixin):
+    model = BibliographicPlan
+
+
+class BibliographicPlanListView(mixins.AjaxableListMixin):
+    model = BibliographicPlan
+
+
+class BibliographicPlanUpdateView(mixins.AjaxableUpdateMixin):
+    model = BibliographicPlan
+    fields = '__all__'
+    success_url = reverse_lazy('lending:bibliographic-detail')
+
+
+class BibliographicPlanDeleteView(mixins.AjaxableDeleteMixin):
+    model = BibliographicPlan
+    success_url = reverse_lazy('lending:bibliographic-list')

@@ -1,0 +1,38 @@
+{% extends 'navbar.html' %}
+
+{% block title %}
+    Eliminar plan de estudios
+{% endblock %}
+
+{% block main %}
+    <div class="row my-4">
+        <div class="col-12">
+            <h2 class="h2 text-center">¿Estás seguro de eliminar el Plan bibliográfico de la
+                carrera {{ bibliographicplan.career }}?</h2>
+        </div>
+        <div class="col-12">
+            <h4 class="h4 text-center">
+                Curso {{ bibliographicplan.course }}, {{ bibliographicplan.get_semester_display }}</h4>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-2">Año: {{ bibliographicplan.get_year_display }}</div>
+        <div class="col-4">Carrera: {{ bibliographicplan.career }}</div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            Modalidad: {{ bibliographicplan.get_modality_display }}
+        </div>
+        <div class="col-12">
+            Plan de estudios: {{ bibliographicplan.study_plan }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <form method="post">
+                {% csrf_token %}
+                <button class="btn btn-danger" type="submit">Si, estoy seguro</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

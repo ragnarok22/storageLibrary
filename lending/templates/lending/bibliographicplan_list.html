@@ -1,0 +1,48 @@
+{% extends 'navbar.html' %}
+
+{% block title %}
+    listado de planes bibliográficos
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3 class="h3">Listado de planes bibliográficos</h3>
+        </div>
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Carrera</th>
+                    <th>Curso</th>
+                    <th>Año</th>
+                    <th>Semestre</th>
+                    <th>Modalidad</th>
+                    <th>Plan de estudios</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for bibliographicplan in bibliographicplan_list %}
+                    <tr>
+                        <td>{{ bibliographicplan.career }}</td>
+                        <td>{{ bibliographicplan.course }}</td>
+                        <td>{{ bibliographicplan.get_year_display }}</td>
+                        <td>{{ bibliographicplan.get_semester_display }}</td>
+                        <td>{{ bibliographicplan.get_modality_display }}</td>
+                        <td>{{ bibliographicplan.study_plan }}</td>
+                        <td>
+                            <a href="{% url 'lending:bibliographic-detail' bibliographicplan.pk %}"><i
+                                    class="fa fa-eye fa-2x"></i></a>
+                            <a href="{% url 'lending:bibliographic-update' bibliographicplan.pk %}"><i
+                                    class="fa fa-pencil fa-2x"></i></a>
+                            <a href="{% url 'lending:bibliographic-delete' bibliographicplan.pk %}"><i
+                                    class="fa fa-trash fa-2x"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
