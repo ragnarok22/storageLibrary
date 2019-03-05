@@ -7,7 +7,7 @@
 {% block main %}
     <p>Nombre de usuario: {{ profile.username }}</p>
     <p>Nombre completo: {{ profile.get_full_name }}</p>
-    <a href="{% url 'accounts:update' profile.pk %}">Editar</a>
-    <a href="{% url 'accounts:delete' profile.pk %}">Eliminar</a>
-    <a href="{% url 'accounts:update-password' profile.pk %}">Cambiar contrase&ntilde;a</a>
+    <a href="{% url 'accounts:update' profile.pk %}" class="btn btn-default">Editar</a>
+    <a href="{% url 'accounts:delete' profile.pk %}" class="btn btn-danger">Eliminar</a>
+    <a href="{% url 'accounts:update-password' profile.pk %}" class="btn btn-primary">Cambiar contrase&ntilde;a</a>
 {% endblock %}
