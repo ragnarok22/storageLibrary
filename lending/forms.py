@@ -11,7 +11,7 @@ class StudentCreateForm(forms.ModelForm):
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'ci': forms.TextInput(attrs={'class': 'form-control'}),
+            'ci': forms.NumberInput(attrs={'class': 'form-control'}),
             'number': forms.TextInput(attrs={'class': 'form-control'}),
             'academic_year': forms.NumberInput(attrs={'min': 1, 'max': 6, 'class': 'form-control'})
         }
