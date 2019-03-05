@@ -138,6 +138,7 @@ class BibliographicPlan(models.Model):
         (3, 'Tercero'),
         (4, 'Cuarto'),
         (5, 'Quinto'),
+        (6, 'Sexto'),
     )
 
     year = models.PositiveSmallIntegerField('Año', choices=YEAR_CHOICES)
