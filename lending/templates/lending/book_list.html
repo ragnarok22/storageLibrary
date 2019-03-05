@@ -5,22 +5,44 @@
 {% endblock %}
 
 {% block main %}
-    <table>
-        <tr>
-            <th>Nombre</th>
-            <th>Numero</th>
-            <th>Cantidad</th>
-        </tr>
-        {% for book in book_list %}
-            <tr>
-                <td>{{ book.name }}</td>
-                <td>{{ book.number }}</td>
-                <td>{{ book.cant }}</td>
-            </tr>
-        {% empty %}
-            <tr>
-                <td rowspan="3">No hay libros</td>
-            </tr>
-        {% endfor %}
-    </table>
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>N&uacute;mero</th>
+                    <th>Cantidad</th>
+                    <th>Autor</th>
+                    <th>Año de publicación</th>
+                    <th>Editorial</th>
+                    <th>Asignatura</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for book in book_list %}
+                    <tr>
+                        <td>{{ book.name }}</td>
+                        <td>{{ book.number }}</td>
+                        <td>{{ book.cant }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.publish_year }}</td>
+                        <td>{{ book.editorial }}</td>
+                        <td>{{ book.study_topic }}</td>
+                        <td>
+                            <a href="{% url 'lending:book-update' book.pk %}"><i class="fa fa-pencil"></i></a>
+                            <a href="{% url 'lending:book-detail' book.pk %}"><i class="fa fa-eye"></i></a>
+                            <a href="{% url 'lending:book-delete' book.pk %}"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td rowspan="3" class="center">No hay libros</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

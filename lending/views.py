@@ -12,12 +12,12 @@ class BookListView(mixins.AjaxableListMixin):
 class BookCreateView(generic.CreateView):
     model = Book
     success_url = reverse_lazy('lending:book-list')
-    fields = '__all__'
+    form_class = forms.BookCreateForm
 
 
 class BookUpdateView(generic.UpdateView):  # no usado
     model = Book
-    fields = ['name', 'number', 'cant']
+    form_class = forms.BookUpdateForm
 
     def get_success_url(self):
         return reverse_lazy('lending:book-detail', kwargs={'pk': self.object.pk})
@@ -119,7 +119,7 @@ class LendingDeleteView(mixins.AjaxableDeleteMixin):
 
 class BibliographicPlanCreateView(mixins.AjaxableCreateMixin):
     model = BibliographicPlan
-    fields = '__all__'
+    form_class = forms.BibliographicPlanForm
     success_url = reverse_lazy('lending:bibliographic-list')
 
 
@@ -144,7 +144,7 @@ class BibliographicPlanDeleteView(mixins.AjaxableDeleteMixin):
 
 class StudyTopicCreateView(mixins.AjaxableCreateMixin):
     model = StudyTopic
-    fields = '__all__'
+    form_class = forms.StudyTopicForm
     success_url = reverse_lazy('lending:study-topic-list')
 
 
@@ -158,7 +158,7 @@ class StudyTopicListView(mixins.AjaxableListMixin):
 
 class StudyTopicUpdateView(mixins.AjaxableUpdateMixin):
     model = StudyTopic
-    fields = '__all__'
+    form_class = forms.StudyTopicForm
     success_url = reverse_lazy('lending:study-topic-list')
 
 

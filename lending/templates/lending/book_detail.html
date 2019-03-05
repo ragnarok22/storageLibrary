@@ -1,0 +1,39 @@
+{% extends 'navbar.html' %}
+
+{% block title %}
+    Detalles del libro
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-12">
+            <h3 class="h3 text-center">{{ book.name }}</h3>
+        </div>
+        <div class="col-12 col-md-6">
+            Autor: {{ book.author }}
+        </div>
+        <div class="col-12 col-md-6">
+            Número: {{ book.number }}
+        </div>
+        <div class="col-12 col-md-6">
+            Cantidad: {{ book.cant }}
+        </div>
+        <div class="col-12 col-md-6">
+            Año de publicación: {{ book.publish_year }}
+        </div>
+        <div class="col-12 col-md-6">
+            Editorial: {{ book.editorial }}
+        </div>
+        <div class="col-12 col-md-6">
+            Asignatura: {{ book.study_topic }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-4">
+            <a href="{% url 'lending:book-update' book.pk %}" class="btn btn-default">Editar</a>
+        </div>
+        <div class="col-12 col-md-4">
+            <a href="{% url 'lending:book-delete' book.pk %}" class="btn btn-danger">Eliminar</a>
+        </div>
+    </div>
+{% endblock %}

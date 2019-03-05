@@ -7,7 +7,18 @@
 {% block main %}
     <form method="post">
         {% csrf_token %}
-        {{ form }}
-        <button class="btn btn-default">Aceptar</button>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                {{ form.name.label }}
+                {{ form.name }}
+            </div>
+            <div class="col-12 col-md-6">
+                {{ form.bibliographic_plan.label }}
+                {{ form.bibliographic_plan }}
+            </div>
+            <div class="col-12">
+                <button class="btn btn-default">Aceptar</button>
+            </div>
+        </div>
     </form>
 {% endblock %}
