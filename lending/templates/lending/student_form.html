@@ -7,7 +7,32 @@
 {% block main %}
     <form method="post">
         {% csrf_token %}
-        {{ form }}
-        <button type="submit">Aceptar</button>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                {{ form.first_name.label }}
+                {{ form.first_name }}
+            </div>
+            <div class="col-12 col-md-6">
+                {{ form.last_name.label }}
+                {{ form.last_name }}
+            </div>
+            <div class="col-12 col-md-4">
+                {{ form.ci.label }}
+                {{ form.ci }}
+            </div>
+            <div class="col-12 col-md-4">
+                {{ form.number.label }}
+                {{ form.number }}
+            </div>
+            <div class="col-12 col-md-4">
+                {{ form.academic_year.label }}
+                {{ form.academic_year }}
+            </div>
+        </div>
+        <div class="row d-flex">
+            <div class="col-12 right">
+                <button type="submit" class="btn btn-default">Aceptar</button>
+            </div>
+        </div>
     </form>
 {% endblock %}
