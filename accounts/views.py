@@ -1,17 +1,24 @@
+from django.contrib.auth import forms as auth_forms
 from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth import views as auth_views
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse_lazy
 from django.views import generic
-from django.contrib.auth import forms as auth_forms
 
-from accounts import mixins
 from StorageLibrary.settings import LOGIN_URL
+from accounts import mixins
 from . import forms
 from .models import Profile
 
 
 class DashboardView(mixins.LoginRequiredMixin, mixins.NavbarMixin, generic.TemplateView):
     template_name = 'accounts/dashboard.html'
+
+
+class AdministratorDashboardView(mixins.SuperuserRequiredMixin, mixins.NavbarMixin, generic.ListView):
+    model = Profile
+    template_name = 'accounts/administrator.html'
+    tab_name = 'administrator'
 
 
 class LoginView(mixins.AnonymousRequiredMixin, generic.FormView):
@@ -23,7 +30,7 @@ class LoginView(mixins.AnonymousRequiredMixin, generic.FormView):
         return super(LoginView, self).form_valid(form)
 
     def get_success_url(self):
-        return self.request.GET.get('next', reverse_lazy('accounts:dashboard'))
+        return self.request.GET.get('next', reverse_lazy('accounts:administrator'))
 
 
 class LogoutView(generic.RedirectView):
@@ -37,7 +44,7 @@ class LogoutView(generic.RedirectView):
 class CreateProfileView(generic.CreateView):
     model = Profile
     form_class = forms.CreateProfileForm
-    success_url = reverse_lazy('accounts:dashboard')
+    success_url = reverse_lazy('accounts:administrator')
 
 
 class UpdateProfileView(generic.UpdateView):
@@ -59,12 +66,6 @@ class UpdatePasswordView(mixins.SameUserRequiredMixin, auth_views.PasswordChange
 
     def get_success_url(self):
         return reverse_lazy('accounts:detail', kwargs={'pk': self.request.user.pk})
-
-
-class ListProfileView(generic.ListView):
-    model = Profile
-    template_name = 'accounts/profile_list.html'
-    context_object_name = 'profiles'
 
 
 class DetailProfileView(generic.DetailView):
@@ -93,3 +94,15 @@ class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
 class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
     # template_name = 'accounts/password_reset_complete.html'
     pass
+
+
+class ChangeActiveUsersView(mixins.SuperuserRequiredMixin, generic.FormView):
+    def post(self, request, *args, **kwargs):
+        pk = request.POST.get('pk', None)
+        if pk:
+            user = Profile.objects.get(pk=pk)
+            user.is_active = not user.is_active
+            user.save()
+            if request.is_ajax():
+                return JsonResponse({'active': user.is_active, 'pk': user.pk})
+        return HttpResponseRedirect('/')

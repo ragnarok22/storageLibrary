@@ -18,16 +18,22 @@ class LoginForm(AuthenticationForm):
 class CreateProfileForm(forms.ModelForm):
     password1 = forms.CharField(
         label='Contraseña',
-        widget=forms.PasswordInput
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
     password2 = forms.CharField(
         label='Confirme contraseña',
-        widget=forms.PasswordInput
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
 
     class Meta:
         model = Profile
-        fields = ['username', 'first_name', 'last_name']
+        fields = ['username', 'first_name', 'last_name', 'email']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
 
     def clean_password2(self):
         # Check that the two password entries match

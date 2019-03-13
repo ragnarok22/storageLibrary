@@ -4,6 +4,7 @@ from django.http import JsonResponse, Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View, generic
+from django.views.generic.base import ContextMixin
 
 from accounts.models import Profile
 from StorageLibrary.settings import DASHBOARD_URL
@@ -23,8 +24,9 @@ class SuperuserRequiredMixin(LoginRequiredMixin, View):
     """Verify if the user is superuser, otherwise launch permission denied exception."""
 
     def dispatch(self, request, *args, **kwargs):
+        response = super(SuperuserRequiredMixin, self).dispatch(request, *args, **kwargs)
         if request.user.is_superuser:
-            return super(SuperuserRequiredMixin, self).dispatch(request, *args, **kwargs)
+            return response
         else:
             raise PermissionDenied
 
@@ -44,7 +46,7 @@ class SameUserRequiredMixin(LoginRequiredMixin, View):
             raise Http404('El perfil no existe')
 
 
-class NavbarMixin:
+class NavbarMixin(ContextMixin):
     tab_name = 'init'
 
     def get_tab_name(self):
@@ -54,7 +56,8 @@ class NavbarMixin:
             return 'init'
 
     def get_context_data(self, **kwargs):
-        context = {'tab': self.get_tab_name()}
+        context = super(NavbarMixin, self).get_context_data(**kwargs)
+        context['tab'] = self.get_tab_name()
         return context
 
 

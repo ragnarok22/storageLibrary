@@ -7,7 +7,39 @@
 {% block main %}
     <form method="post">
         {% csrf_token %}
-        {{ form }}
-        <button type="submit">Aceptar</button>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+                {{ form.username }}
+                <span class="text-muted">{{ form.username.help_text }}</span>
+                <span class="text-muted text-danger">{{ form.username.errors }}</span>
+            </div>
+            <div class="col-12 col-md-6">
+                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                {{ form.email }}
+                <span class="text-muted text-danger">{{ form.email.errors }}</span>
+            </div>
+            <div class="col-12 col-md-6">
+                <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                {{ form.first_name }}
+                <span class="text-muted text-danger">{{ form.first_name.errors }}</span>
+            </div>
+            <div class="col-12 col-md-6">
+                <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                {{ form.last_name }}
+                <span class="text-muted text-danger">{{ form.last_name.errors }}</span>
+            </div>
+            <div class="col-12 col-md-6">
+                <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+                {{ form.password1 }}
+                <span class="text-muted text-danger">{{ form.password1.errors }}</span>
+            </div>
+            <div class="col-12 col-md-6">
+                <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+                {{ form.password2 }}
+                <span class="text-muted text-danger">{{ form.password2.errors }}</span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default">Aceptar</button>
     </form>
 {% endblock %}

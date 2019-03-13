@@ -20,6 +20,8 @@ function csrfSaveMethod(method) {
 }
 
 $(document).ready(function (e) {
+    $('[data-toggle="tooltip"]').tooltip();
+
     const csrftoken = getCookie('csrftoken');
     $.ajaxSetup({
         beforeSend: function (xhr, settings) {

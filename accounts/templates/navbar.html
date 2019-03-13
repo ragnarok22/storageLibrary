@@ -43,6 +43,11 @@
                                     una asignatura</a>
                             </div>
                         </li>
+                        {% if user.is_superuser %}
+                            <li class="nav-item" id="administrator">
+                                <a href="{% url 'accounts:administrator' %}" class="nav-link">Administrar</a>
+                            </li>
+                        {% endif %}
                     </ul>
                     <div class="form-inline">
                         <ul class="navbar-nav mr-auto">
