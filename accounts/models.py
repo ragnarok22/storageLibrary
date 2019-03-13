@@ -16,7 +16,7 @@ class Profile(AbstractUser):
         ('ADMIN', 'Administrador'),
         ('MOD', 'Moderador'),
     )
-    occupation = models.CharField('Ocupación', max_length=5, choices=OCCUPATION_CHOICES)
+    occupation = models.CharField('Ocupación', max_length=5, choices=OCCUPATION_CHOICES, default='MOD')
 
     objects = CustomUserManager()
 

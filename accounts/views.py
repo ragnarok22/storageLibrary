@@ -50,6 +50,7 @@ class CreateProfileView(generic.CreateView):
 class UpdateProfileView(generic.UpdateView):
     model = Profile
     form_class = forms.UpdateProfileForm
+    template_name = 'accounts/profile_update_form.html'
 
     def get_success_url(self):
         return reverse_lazy('accounts:detail', kwargs={'pk': self.object.pk})

@@ -20,6 +20,7 @@
                 <th>Correo</th>
                 <th>Está activo</th>
                 <th>Ocupación</th>
+                <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -33,6 +34,11 @@
                                {% else %}title="inactivo"{% endif %} data-pk="{{ profile.pk }}">
                     </td>
                     <td>{{ profile.get_occupation_display }}</td>
+                    <td>
+                        <a href="{% url 'accounts:detail' profile.pk %}"><i class="fa fa-eye"></i></a>
+                        <a href="{% url 'accounts:update' profile.pk %}"><i class="fa fa-pencil"></i></a>
+                        <a href="{% url 'accounts:delete' profile.pk %}"><i class="fa fa-trash"></i></a>
+                    </td>
                 </tr>
             {% endfor %}
 

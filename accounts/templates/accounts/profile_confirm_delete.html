@@ -5,10 +5,16 @@
 {% endblock %}
 
 {% block main %}
-    Estas seguro de eliminar al usuario {{ profile.username }}, cuyo nombre completo es {{ profile.get_full_name }}?
-
+    <div class="row">
+        <div class="col-12">
+            <h3 class="h3 text-center">
+                Estas seguro de eliminar al usuario {{ profile.username }}, cuyo nombre completo
+                es {{ profile.get_full_name }}?
+            </h3>
+        </div>
+    </div>
     <form method="post">
         {% csrf_token %}
-        <button type="submit">Aceptar</button>
+        <button type="submit" class="btn btn-danger">Aceptar</button>
     </form>
 {% endblock %}
