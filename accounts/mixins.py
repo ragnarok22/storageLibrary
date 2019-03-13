@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View, generic
@@ -34,11 +34,14 @@ class SameUserRequiredMixin(LoginRequiredMixin, View):
     exception."""
 
     def dispatch(self, request, *args, **kwargs):
-        logged_user = Profile.objects.get(id=kwargs['pk'])
-        if request.user.is_superuser or request.user == logged_user:
-            return super(SameUserRequiredMixin, self).dispatch(request, *args, **kwargs)
-        else:
-            raise PermissionDenied
+        try:
+            logged_user = Profile.objects.get(id=kwargs['pk'])
+            if request.user.is_superuser or request.user == logged_user:
+                return super(SameUserRequiredMixin, self).dispatch(request, *args, **kwargs)
+            else:
+                raise PermissionDenied
+        except Profile.DoesNotExist:
+            raise Http404('El perfil no existe')
 
 
 class NavbarMixin:
