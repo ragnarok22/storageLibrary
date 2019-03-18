@@ -133,7 +133,7 @@ class BibliographicPlanListView(mixins.AjaxableListMixin):
 
 class BibliographicPlanUpdateView(mixins.AjaxableUpdateMixin):
     model = BibliographicPlan
-    fields = '__all__'
+    form_class = forms.BibliographicPlanForm
     success_url = reverse_lazy('lending:bibliographic-detail')
 
 
