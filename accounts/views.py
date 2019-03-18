@@ -75,7 +75,7 @@ class DetailProfileView(generic.DetailView):
 
 class DeleteProfileView(generic.DeleteView):
     model = Profile
-    success_url = reverse_lazy('accounts:list')
+    success_url = reverse_lazy('accounts:administrator')
 
 
 class PasswordResetView(auth_views.PasswordResetView):
