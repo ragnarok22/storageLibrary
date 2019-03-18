@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import password_validation
-from django.contrib.auth.forms import AuthenticationForm, UsernameField
+from django.contrib.auth.forms import AuthenticationForm, UsernameField, PasswordChangeForm
+from django.utils.translation import gettext_lazy as _
 
 from accounts.models import Profile
 
@@ -63,3 +64,22 @@ class UpdateProfileForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'occupation': forms.Select(attrs={'class': 'form-control'}),
         }
+
+
+class PasswordUpdateForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        label=_("Old password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'autofocus': True}),
+    )
+    new_password1 = forms.CharField(
+        label=_("New password"),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+    new_password2 = forms.CharField(
+        label=_("New password confirmation"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )

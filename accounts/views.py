@@ -58,7 +58,7 @@ class UpdateProfileView(generic.UpdateView):
 
 class UpdatePasswordView(mixins.SameUserRequiredMixin, auth_views.PasswordChangeView):
     template_name = 'accounts/password_change_form.html'
-    form_class = auth_forms.PasswordChangeForm
+    form_class = forms.PasswordUpdateForm
 
     def form_valid(self, form):
         form.save()
