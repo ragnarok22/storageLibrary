@@ -10,13 +10,35 @@
             <h3 class="h3 text-center">Listado de asignaturas</h3>
         </div>
         <div class="col-12">
-            {% for studytopic in studytopic_list %}
-                <p>
-                    <a href="{% url 'lending:study-topic-detail' studytopic.pk %}">{{ studytopic }}</a>
-                    <a href="{% url 'lending:study-topic-update' studytopic.pk %}"><i class="fa fa-pencil"></i></a>
-                    <a href="{% url 'lending:study-topic-delete' studytopic.pk %}"><i class="fa fa-trash"></i></a>
-                </p>
-            {% endfor %}
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Plan bibliográfico</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for studytopic in studytopic_list %}
+                    <tr>
+                        <td>{{ studytopic.name }}</td>
+                        <td>
+                            {{ studytopic.bibliographic_plan.career }}
+                            {{ studytopic.bibliographic_plan.get_year_display }}
+                            ({{ studytopic.bibliographic_plan.study_plan }})
+                        </td>
+                        <td>
+                            <a href="{% url 'lending:study-topic-detail' studytopic.pk %}" data-toggle="tooltip"
+                               data-placement="top" title="Ver detalles"><i class="fa fa-eye fa-2x"></i></a>
+                            <a href="{% url 'lending:study-topic-update' studytopic.pk %}" data-toggle="tooltip"
+                               data-placement="top" title="Actualizar"><i class="fa fa-pencil fa-2x"></i></a>
+                            <a href="{% url 'lending:study-topic-delete' studytopic.pk %}" data-toggle="tooltip"
+                               data-placement="top" title="Borrar"><i class="fa fa-trash fa-2x"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                {% endfor %}
+            </table>
         </div>
     </div>
 
