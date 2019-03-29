@@ -31,9 +31,15 @@
                         <td>{{ book.editorial }}</td>
                         <td>{{ book.study_topic }}</td>
                         <td>
-                            <a href="{% url 'lending:book-update' book.pk %}"><i class="fa fa-pencil"></i></a>
-                            <a href="{% url 'lending:book-detail' book.pk %}"><i class="fa fa-eye"></i></a>
-                            <a href="{% url 'lending:book-delete' book.pk %}"><i class="fa fa-trash"></i></a>
+                            <a href="{% url 'lending:book-detail' book.pk %}">
+                                <i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Detalles"></i>
+                            </a>
+                            <a href="{% url 'lending:book-update' book.pk %}">
+                                <i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Editar"></i>
+                            </a>
+                            <a href="{% url 'lending:book-delete' book.pk %}">
+                                <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Eliminar"></i>
+                            </a>
                         </td>
                     </tr>
                 {% empty %}

@@ -51,3 +51,7 @@ table.table a {
 .green-text-uho {
     background-color: #92B921;
 }
+
+.table.table td a {
+    padding: .5rem;
+}

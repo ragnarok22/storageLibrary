@@ -28,10 +28,14 @@
                             ({{ studytopic.bibliographic_plan.study_plan }})
                         </td>
                         <td>
-                            <a href="{% url 'lending:study-topic-update' studytopic.pk %}" data-toggle="tooltip"
-                               data-placement="top" title="Actualizar"><i class="fa fa-pencil fa-2x"></i></a>
-                            <a href="{% url 'lending:study-topic-delete' studytopic.pk %}" data-toggle="tooltip"
-                               data-placement="top" title="Borrar"><i class="fa fa-trash fa-2x"></i></a>
+                            <a href="{% url 'lending:study-topic-update' studytopic.pk %}">
+                                <i class="fa fa-pencil fa-2x" data-toggle="tooltip" data-placement="top"
+                                   title="Editar"></i>
+                            </a>
+                            <a href="{% url 'lending:study-topic-delete' studytopic.pk %}">
+                                <i class="fa fa-trash fa-2x" data-toggle="tooltip" data-placement="top"
+                                   title="Eliminar"></i>
+                            </a>
                         </td>
                     </tr>
                     </tbody>

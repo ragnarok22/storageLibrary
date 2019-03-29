@@ -32,12 +32,18 @@
                         <td>{{ bibliographicplan.get_modality_display }}</td>
                         <td>{{ bibliographicplan.study_plan }}</td>
                         <td>
-                            <a href="{% url 'lending:bibliographic-detail' bibliographicplan.pk %}"><i
-                                    class="fa fa-eye fa-2x"></i></a>
-                            <a href="{% url 'lending:bibliographic-update' bibliographicplan.pk %}"><i
-                                    class="fa fa-pencil fa-2x"></i></a>
-                            <a href="{% url 'lending:bibliographic-delete' bibliographicplan.pk %}"><i
-                                    class="fa fa-trash fa-2x"></i></a>
+                            <a href="{% url 'lending:bibliographic-detail' bibliographicplan.pk %}">
+                                <i class="fa fa-eye fa-2x" data-toggle="tooltip" data-placement="top"
+                                   title="Detalles"></i>
+                            </a>
+                            <a href="{% url 'lending:bibliographic-update' bibliographicplan.pk %}">
+                                <i class="fa fa-pencil fa-2x" data-toggle="tooltip" data-placement="top"
+                                   title="Editar"></i>
+                            </a>
+                            <a href="{% url 'lending:bibliographic-delete' bibliographicplan.pk %}">
+                                <i class="fa fa-trash fa-2x" data-toggle="tooltip" data-placement="top"
+                                   title="Eliminar"></i>
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

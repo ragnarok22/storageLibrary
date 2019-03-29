@@ -208,9 +208,10 @@ $(function () {
                     const student = student_list[i];
                     student_html += '<tr data-pk="' + student['pk'] + '"  data-type="detail"><td>' +
                         student['number'] + '</td><td>' + student['first_name'] + '</td><td>' +
-                        student['last_name'] + '</td><td class="d-flex"><a href="' + student['detail_url'] +
-                        '" data-type="detail"><i class="fa fa-eye"></i></a>' +
-                        '<a href="' + student['delete_url'] + '" data-type="delete"><i class="fa fa-remove"></i></a></td></tr>';
+                        student['last_name'] + '</td><td><a href="' + student['detail_url'] +
+                        '" data-type="detail" title="Detalles"><i class="fa fa-eye"></i></a>' +
+                        '<a href="' + student['delete_url'] + '" data-type="delete" title="Eliminar"><i class="fa fa-remove">' +
+                        '</i></a></td></tr>';
                 }
                 if (student_html === '') {
                     student_html = '<tr><td class="text-center" colspan="4">No se han encontrado estudiantes</td></tr>';
