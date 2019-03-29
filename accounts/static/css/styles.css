@@ -35,3 +35,19 @@ table.table a {
     flex: 1 1 auto;
     text-align: center;
 }
+
+.blue-bg-uho {
+    background-color: #222E58;
+}
+
+.green-bg-uho {
+    background-color: #92B921;
+}
+
+.blue-text-uho {
+    background-color: #222E58;
+}
+
+.green-text-uho {
+    background-color: #92B921;
+}
