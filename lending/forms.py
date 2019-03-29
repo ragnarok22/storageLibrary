@@ -66,6 +66,6 @@ class BibliographicPlanForm(forms.ModelForm):
             'semester': forms.Select(attrs={'class': 'form-control'}),
             'career': forms.TextInput(attrs={'class': 'form-control'}),
             'course': forms.TextInput(attrs={'class': 'form-control'}),
-            'modality': forms.TextInput(attrs={'class': 'form-control'}),
+            'modality': forms.Select(attrs={'class': 'form-control'}),
             'study_plan': forms.TextInput(attrs={'class': 'form-control'}),
         }
