@@ -30,6 +30,7 @@ class BookCreateForm(forms.ModelForm):
             'publish_year': forms.NumberInput(attrs={'class': 'form-control'}),
             'editorial': forms.TextInput(attrs={'class': 'form-control'}),
             'study_topic': forms.Select(attrs={'class': 'form-control'}),
+            'location': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 

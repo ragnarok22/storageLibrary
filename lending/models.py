@@ -10,6 +10,7 @@ class Book(models.Model):
     publish_year = models.PositiveSmallIntegerField('Año de publicación')
     editorial = models.CharField('Editorial', max_length=100)
     study_topic = models.ForeignKey('StudyTopic', models.CASCADE, verbose_name='Asignatura')
+    location = models.CharField('Localidad', max_length=100)
 
     def to_dict(self):
         return {
@@ -20,6 +21,7 @@ class Book(models.Model):
             'author': self.author,
             'publish_year': self.publish_year,
             'editorial': self.editorial,
+            'location': self.location,
             'study_topic': self.study_topic.to_dict()
         }
 

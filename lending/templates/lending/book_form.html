@@ -8,13 +8,17 @@
     <form method="post">
         {% csrf_token %}
         <div class="row">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 {{ form.name.label }}
                 {{ form.name }}
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 {{ form.author.label }}
                 {{ form.author }}
+            </div>
+            <div class="col-12 col-md-4">
+                {{ form.location.label }}
+                {{ form.location }}
             </div>
             <div class="col-12 col-md-6">
                 {{ form.number.label }}
