@@ -1,3 +1,4 @@
+from django.contrib.auth import mixins as auth_mixins
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -5,17 +6,17 @@ from lending import mixins, forms
 from lending.models import Book, Student, Lending, BibliographicPlan, StudyTopic
 
 
-class BookListView(mixins.AjaxableListMixin):
+class BookListView(auth_mixins.LoginRequiredMixin, mixins.AjaxableListMixin):
     model = Book
 
 
-class BookCreateView(generic.CreateView):
+class BookCreateView(auth_mixins.LoginRequiredMixin, generic.CreateView):
     model = Book
     success_url = reverse_lazy('lending:book-list')
     form_class = forms.BookCreateForm
 
 
-class BookUpdateView(generic.UpdateView):  # no usado
+class BookUpdateView(auth_mixins.LoginRequiredMixin, generic.UpdateView):  # no usado
     model = Book
     form_class = forms.BookUpdateForm
 
@@ -23,7 +24,7 @@ class BookUpdateView(generic.UpdateView):  # no usado
         return reverse_lazy('lending:book-detail', kwargs={'pk': self.object.pk})
 
 
-class BookDetailView(generic.DetailView):  # No usado
+class BookDetailView(auth_mixins.LoginRequiredMixin, generic.DetailView):  # No usado
     model = Book
 
     def get_context_data(self, **kwargs):
@@ -31,12 +32,12 @@ class BookDetailView(generic.DetailView):  # No usado
         return context
 
 
-class BookDeleteView(generic.DeleteView):  # no usado
+class BookDeleteView(auth_mixins.LoginRequiredMixin, generic.DeleteView):  # no usado
     model = Book
     success_url = reverse_lazy('lending:book-list')
 
 
-class StudentDetailView(mixins.AjaxableDetailMixin):
+class StudentDetailView(auth_mixins.LoginRequiredMixin, mixins.AjaxableDetailMixin):
     model = Student
 
     def get_context_data(self, **kwargs):
@@ -45,7 +46,7 @@ class StudentDetailView(mixins.AjaxableDetailMixin):
         return context
 
 
-class StudentListView(mixins.AjaxableListMixin):
+class StudentListView(auth_mixins.LoginRequiredMixin, mixins.AjaxableListMixin):
     model = Student
 
     def get_queryset(self):
@@ -68,18 +69,18 @@ class StudentListView(mixins.AjaxableListMixin):
         return context
 
 
-class StudentCreateView(generic.CreateView):
+class StudentCreateView(auth_mixins.LoginRequiredMixin, generic.CreateView):
     model = Student
     form_class = forms.StudentCreateForm
     success_url = reverse_lazy('lending:student-query')
 
 
-class StudentDeleteView(mixins.AjaxableDeleteMixin):
+class StudentDeleteView(auth_mixins.LoginRequiredMixin, mixins.AjaxableDeleteMixin):
     model = Student
     success_url = reverse_lazy('lending:student-query')
 
 
-class StudentUpdateView(mixins.AjaxableUpdateMixin):
+class StudentUpdateView(auth_mixins.LoginRequiredMixin, mixins.AjaxableUpdateMixin):
     model = Student
     fields = ['first_name', 'last_name', 'ci', 'number', 'academic_year']
 
@@ -87,13 +88,13 @@ class StudentUpdateView(mixins.AjaxableUpdateMixin):
         return reverse_lazy('lending:student-detail', kwargs={'pk': self.object.pk})
 
 
-class LendingCreateView(mixins.AjaxableCreateMixin):
+class LendingCreateView(auth_mixins.LoginRequiredMixin, mixins.AjaxableCreateMixin):
     model = Lending
     success_url = reverse_lazy('lending:student-query')
     fields = ['student', 'book']
 
 
-class LendingQueryView(mixins.AjaxableListMixin):
+class LendingQueryView(auth_mixins.LoginRequiredMixin, mixins.AjaxableListMixin):
     model = Lending
 
     def get_queryset(self):
@@ -108,60 +109,60 @@ class LendingQueryView(mixins.AjaxableListMixin):
             return super().get_queryset()
 
 
-class LendingDetailView(mixins.AjaxableDetailMixin):  # no usado
+class LendingDetailView(auth_mixins.LoginRequiredMixin, mixins.AjaxableDetailMixin):  # no usado
     model = Lending
 
 
-class LendingDeleteView(mixins.AjaxableDeleteMixin):
+class LendingDeleteView(auth_mixins.LoginRequiredMixin, mixins.AjaxableDeleteMixin):
     model = Lending
     success_url = reverse_lazy('lending:student-query')
 
 
-class BibliographicPlanCreateView(mixins.AjaxableCreateMixin):
+class BibliographicPlanCreateView(auth_mixins.LoginRequiredMixin, mixins.AjaxableCreateMixin):
     model = BibliographicPlan
     form_class = forms.BibliographicPlanForm
     success_url = reverse_lazy('lending:bibliographic-list')
 
 
-class BibliographicPlanDetailView(mixins.AjaxableDetailMixin):
+class BibliographicPlanDetailView(auth_mixins.LoginRequiredMixin, mixins.AjaxableDetailMixin):
     model = BibliographicPlan
 
 
-class BibliographicPlanListView(mixins.AjaxableListMixin):
+class BibliographicPlanListView(auth_mixins.LoginRequiredMixin, mixins.AjaxableListMixin):
     model = BibliographicPlan
 
 
-class BibliographicPlanUpdateView(mixins.AjaxableUpdateMixin):
+class BibliographicPlanUpdateView(auth_mixins.LoginRequiredMixin, mixins.AjaxableUpdateMixin):
     model = BibliographicPlan
     form_class = forms.BibliographicPlanForm
     success_url = reverse_lazy('lending:bibliographic-detail')
 
 
-class BibliographicPlanDeleteView(mixins.AjaxableDeleteMixin):
+class BibliographicPlanDeleteView(auth_mixins.LoginRequiredMixin, mixins.AjaxableDeleteMixin):
     model = BibliographicPlan
     success_url = reverse_lazy('lending:bibliographic-list')
 
 
-class StudyTopicCreateView(mixins.AjaxableCreateMixin):
+class StudyTopicCreateView(auth_mixins.LoginRequiredMixin, mixins.AjaxableCreateMixin):
     model = StudyTopic
     form_class = forms.StudyTopicForm
     success_url = reverse_lazy('lending:study-topic-list')
 
 
-class StudyTopicDetailView(mixins.AjaxableDetailMixin):
+class StudyTopicDetailView(auth_mixins.LoginRequiredMixin, mixins.AjaxableDetailMixin):
     model = StudyTopic
 
 
-class StudyTopicListView(mixins.AjaxableListMixin):
+class StudyTopicListView(auth_mixins.LoginRequiredMixin, mixins.AjaxableListMixin):
     model = StudyTopic
 
 
-class StudyTopicUpdateView(mixins.AjaxableUpdateMixin):
+class StudyTopicUpdateView(auth_mixins.LoginRequiredMixin, mixins.AjaxableUpdateMixin):
     model = StudyTopic
     form_class = forms.StudyTopicForm
     success_url = reverse_lazy('lending:study-topic-list')
 
 
-class StudyTopicDeleteView(mixins.AjaxableDeleteMixin):
+class StudyTopicDeleteView(auth_mixins.LoginRequiredMixin, mixins.AjaxableDeleteMixin):
     model = StudyTopic
     success_url = reverse_lazy('lending:study-topic-delete')
