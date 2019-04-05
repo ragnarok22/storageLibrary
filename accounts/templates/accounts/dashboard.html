@@ -1,10 +1,25 @@
 {% extends 'navbar.html' %}
+{% load static %}
 
 {% block title %}
     Dashboard
 {% endblock %}
 
 {% block main %}
-    <h2 style="text-align: center">P&aacute;gina administrativa</h2>
-    <p>dashboard</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 style="text-align: center">P&aacute;gina administrativa</h2>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-12 col-md-6">
+                <img src="{% static 'img/almacen.jpg' %}" alt="almacen" width="100%" height="100%">
+            </div>
+            <div class="col-12 col-md-6">
+                <p>El <a href="{% url 'dashboard' %}">AlmacénDeLibros</a> es un sistema que tiene como principal función
+                    gestionar el préstamo de libros que se le realiza a los estudiantes para cursar sus estudios</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}
