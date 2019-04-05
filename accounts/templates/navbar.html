@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     <header>
@@ -87,28 +88,25 @@
     <footer class="page-footer font-small blue-bg-uho pt-4">
         <div class="container-fluid text-center text-md-left">
             <div class="row">
-                <div class="col-md-6 mt-md-0 mt-3">
+                <div class="col-12 col-md-4 mt-md-0 mt-3">
                     <h5 class="text-uppercase">Universidad de Holgu&iacute;n</h5>
                     <p>Ser culto es el &uacute;nico modo de ser libre.</p>
                     <p class="offset-3">Jos&eacute; Mart&iacute;</p>
                 </div>
                 <hr class="clearfix w-100 d-md-none pb-3">
-                <div class="col-md-3 mb-md-0 mb-3">
+                <div class="col-md-4 mb-md-0 mb-3">
                     <h5 class="text-uppercase">Links</h5>
                     <ul class="list-unstyled">
                         <li>
-                            <a href="#">Link 1</a>
+                            <a href="http://www.uho.edu.cu" target="_blank">Universidad de Holgu&iacute;n</a>
                         </li>
                         <li>
-                            <a href="#">Link 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Link 3</a>
-                        </li>
-                        <li>
-                            <a href="#">Link 4</a>
+                            <a href="http://intranet.uho.edu.cu" target="_blank">Intranet de la Universidad</a>
                         </li>
                     </ul>
+                </div>
+                <div class="col-12 col-md-4">
+                    <img src="{% static 'img/uho.png' %}" alt="Universidad de Holguín" width="80%" height="80%">
                 </div>
             </div>
         </div>
