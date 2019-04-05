@@ -41,13 +41,13 @@ class LogoutView(generic.RedirectView):
         return super(LogoutView, self).get(request, *args, **kwargs)
 
 
-class CreateProfileView(generic.CreateView):
+class CreateProfileView(mixins.LoginRequiredMixin, generic.CreateView):
     model = Profile
     form_class = forms.CreateProfileForm
     success_url = reverse_lazy('accounts:administrator')
 
 
-class UpdateProfileView(generic.UpdateView):
+class UpdateProfileView(mixins.SameUserRequiredMixin, generic.UpdateView):
     model = Profile
     form_class = forms.UpdateProfileForm
     template_name = 'accounts/profile_update_form.html'
@@ -69,30 +69,30 @@ class UpdatePasswordView(mixins.SameUserRequiredMixin, auth_views.PasswordChange
         return reverse_lazy('accounts:detail', kwargs={'pk': self.request.user.pk})
 
 
-class DetailProfileView(generic.DetailView):
+class DetailProfileView(mixins.LoginRequiredMixin, generic.DetailView):
     model = Profile
 
 
-class DeleteProfileView(generic.DeleteView):
+class DeleteProfileView(mixins.SuperuserRequiredMixin, generic.DeleteView):
     model = Profile
     success_url = reverse_lazy('accounts:administrator')
 
 
-class PasswordResetView(auth_views.PasswordResetView):
+class PasswordResetView(mixins.SameUserRequiredMixin, auth_views.PasswordResetView):
     template_name = 'accounts/password_reset_form.html'
     success_url = reverse_lazy('accounts:reset-done-password')
 
 
-class PasswordResetDoneView(auth_views.PasswordResetDoneView):
+class PasswordResetDoneView(mixins.SameUserRequiredMixin, auth_views.PasswordResetDoneView):
     template_name = 'accounts/password_reset_done.html'
 
 
-class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+class PasswordResetConfirmView(mixins.SameUserRequiredMixin, auth_views.PasswordResetConfirmView):
     # template_name = 'accounts/password_reset_confirm.html'
     pass
 
 
-class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+class PasswordResetCompleteView(mixins.SameUserRequiredMixin, auth_views.PasswordResetCompleteView):
     # template_name = 'accounts/password_reset_complete.html'
     pass
 
